@@ -313,4 +313,165 @@ export default function App() {
             <button onClick={() => { ls.del('msp_session'); setSess(null) }} style={{ width: '100%', padding: 8, marginTop: 10, background: '#1F2937', borderRadius: 8, border: 'none', color: '#D1D5DB', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Log Out</button>
           </div>
         ) : (
-          <button onClick={() => setAuth(true)} style={{ padding: 16, background: 'linear-gradient(135deg, #3B82F6, #10B98
+          <button onClick={() => setAuth(true)} style={{ padding: 16, background: 'linear-gradient(135deg, #3B82F6, #10B981)', borderRadius: 16, border: 'none', color: '#fff', fontWeight: 700, cursor: 'pointer' }}>Sign In</button>
+        )}
+      </div>
+
+      {/* MAIN CONTENT */}
+      <div style={{ flex: 1, overflowY: 'auto', padding: '40px 60px', position: 'relative' }}>
+        <div style={{ position: 'absolute', top: '-10%', left: '50%', transform: 'translateX(-50%)', width: '80%', height: 400, background: 'radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
+        
+        <div style={{ maxWidth: 1000, margin: '0 auto', position: 'relative', zIndex: 10 }}>
+          
+          {/* ── TAB: QUIZ INFRASTRUCTURE (The 200 Quiz Engine) ── */}
+          {tab === 'quiz' && !activeQuiz && (
+            <div className="fade-in">
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 32 }}>
+                <div>
+                  <h1 style={{ fontSize: 40, fontWeight: 800, marginBottom: 12, color: '#F9FAFB' }}>Mastery Engine</h1>
+                  <p style={{ color: '#9CA3AF', fontSize: 16, maxWidth: 600 }}>200 hyper-adaptive quizzes. Track your accuracy and target your weak points.</p>
+                </div>
+                <div style={{ position: 'relative', width: 280 }}>
+                  <input type="text" placeholder="Search topics..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} style={{ width: '100%', padding: '12px 16px', background: '#111827', border: '1px solid #1F2937', borderRadius: 12, color: '#fff', outline: 'none' }} />
+                </div>
+              </div>
+
+              {/* Analytics Dashboard */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 32 }}>
+                <div style={{ background: '#111827', border: '1px solid #1F2937', borderRadius: 16, padding: 20 }}>
+                  <div style={{ fontSize: 12, color: '#9CA3AF', textTransform: 'uppercase', fontWeight: 700, marginBottom: 8 }}>Total Completed</div>
+                  <div style={{ fontSize: 28, fontWeight: 800, color: '#3B82F6' }}>{Object.keys(quizProgress).length} <span style={{ fontSize: 14, color: '#6B7280' }}>/ 200</span></div>
+                </div>
+                <div style={{ background: '#111827', border: '1px solid #1F2937', borderRadius: 16, padding: 20 }}>
+                  <div style={{ fontSize: 12, color: '#9CA3AF', textTransform: 'uppercase', fontWeight: 700, marginBottom: 8 }}>Avg Accuracy</div>
+                  <div style={{ fontSize: 28, fontWeight: 800, color: '#10B981' }}>{Object.keys(quizProgress).length > 0 ? Math.round(Object.values(quizProgress).reduce((a,b)=>a+b,0) / Object.values(quizProgress).length) : 0}%</div>
+                </div>
+                <div style={{ background: '#111827', border: '1px solid #1F2937', borderRadius: 16, padding: 20 }}>
+                  <div style={{ fontSize: 12, color: '#9CA3AF', textTransform: 'uppercase', fontWeight: 700, marginBottom: 8 }}>Active Streak</div>
+                  <div style={{ fontSize: 28, fontWeight: 800, color: '#F59E0B' }}>0 <span style={{ fontSize: 14, color: '#6B7280' }}>Days</span></div>
+                </div>
+              </div>
+
+              {/* Category Filter Pills */}
+              <div style={{ display: 'flex', gap: 12, marginBottom: 24 }}>
+                {['All', 'Bio/Biochem', 'Chem/Phys', 'Psych/Soc', 'CARS'].map(cat => (
+                  <button key={cat} onClick={() => setQuizFilter(cat)} style={{ padding: '8px 20px', borderRadius: 20, fontSize: 13, fontWeight: 600, cursor: 'pointer', border: 'none', background: quizFilter === cat ? '#3B82F6' : '#111827', color: quizFilter === cat ? '#fff' : '#9CA3AF' }}>{cat}</button>
+                ))}
+              </div>
+
+              {/* Quiz Grid */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))', gap: 16 }}>
+                {QUIZZES.filter(q => quizFilter === 'All' || q.cat.includes(quizFilter)).filter(q => q.title.toLowerCase().includes(searchQuery.toLowerCase())).map(q => {
+                  const score = quizProgress[q.id]
+                  return (
+                    <div key={q.id} style={{ padding: 24, background: '#111827', borderRadius: 20, border: '1px solid #1F2937', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                      <div style={{ marginBottom: 20 }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                          <span style={{ fontSize: 11, color: '#3B82F6', fontWeight: 800, textTransform: 'uppercase' }}>{q.cat}</span>
+                          <span style={{ fontSize: 12, color: '#6B7280', fontWeight: 600, background: '#1F2937', padding: '4px 8px', borderRadius: 6 }}>{q.qs.length} Qs</span>
+                        </div>
+                        <h3 style={{ fontSize: 18, fontWeight: 700, color: '#F9FAFB' }}>{q.title}</h3>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        {score !== undefined ? <div style={{ fontSize: 14, fontWeight: 700, color: '#10B981' }}>Score: {score}%</div> : <div style={{ fontSize: 13, color: '#6B7280' }}>Not started</div>}
+                        <button onClick={() => setActiveQuiz(q)} style={{ padding: '8px 20px', background: score !== undefined ? '#1F2937' : '#3B82F6', borderRadius: 10, border: 'none', color: '#fff', fontWeight: 600, cursor: 'pointer' }}>{score !== undefined ? 'Retake' : 'Start Quiz'}</button>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
+          {tab === 'quiz' && activeQuiz && <QuizEngine quiz={activeQuiz} onFinish={(score, total) => { setQuizProgress({...quizProgress, [activeQuiz.id]: Math.round((score/total)*100)}); setActiveQuiz(null) }} />}
+
+          {/* ── TAB: STUDY PLANS ── */}
+          {tab === 'plans' && !activePlan && (
+            <div className="fade-in">
+              <h1 style={{ fontSize: 40, fontWeight: 800, marginBottom: 12 }}>Structured Programs</h1>
+              <p style={{ color: '#9CA3AF', marginBottom: 48 }}>Select a pre-built, highly optimized schedule.</p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
+                {STUDY_PLANS.map(p => (
+                  <div key={p.id} onClick={() => setActivePlan(p)} style={{ background: '#111827', border: '1px solid #1F2937', borderRadius: 24, padding: 32, cursor: 'pointer' }}>
+                    <div style={{ width: 56, height: 56, borderRadius: 16, background: `${p.color}15`, color: p.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, marginBottom: 20 }}>{p.icon}</div>
+                    <h3 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>{p.title}</h3>
+                    <p style={{ color: '#9CA3AF', fontSize: 14 }}>{p.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {tab === 'plans' && activePlan && (
+            <div className="fade-in">
+              <button onClick={() => setActivePlan(null)} style={{ background: 'none', border: 'none', color: '#60A5FA', cursor: 'pointer', marginBottom: 24, fontWeight: 600 }}>← Back to Programs</button>
+              <h1 style={{ fontSize: 40, fontWeight: 800, marginBottom: 16 }}>{activePlan.title}</h1>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                {activePlan.schedule.map((day, i) => (
+                  <div key={i} style={{ background: '#111827', border: '1px solid #1F2937', borderRadius: 20, padding: 32, display: 'flex', gap: 32 }}>
+                    <div style={{ minWidth: 100, fontSize: 14, color: activePlan.color, fontWeight: 800, textTransform: 'uppercase' }}>{day.day}</div>
+                    <div>
+                      <h3 style={{ fontSize: 20, fontWeight: 700, marginBottom: 16 }}>{day.title}</h3>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                        {day.tasks.map((task, j) => (
+                          <label key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, cursor: 'pointer' }}><input type="checkbox" style={{ width: 20, height: 20, accentColor: activePlan.color }} /><span style={{ color: '#D1D5DB' }}>{task}</span></label>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ── TAB: AMCAS VAULT ── */}
+          {tab === 'amcas' && (
+            <div className="fade-in">
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 48 }}>
+                <div><h1 style={{ fontSize: 40, fontWeight: 800, marginBottom: 12 }}>AMCAS Vault</h1><p style={{ color: '#9CA3AF' }}>Log your clinical hours and notes.</p></div>
+                <button onClick={handleAddActivity} style={{ padding: '12px 24px', background: '#3B82F6', border: 'none', borderRadius: 12, color: '#fff', fontWeight: 700, cursor: 'pointer' }}>+ Log Activity</button>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                {activities.map((act) => (
+                  <div key={act.id} style={{ background: '#111827', border: '1px solid #1F2937', borderRadius: 24, padding: 32 }}>
+                    <div style={{ display: 'flex', gap: 20, marginBottom: 20 }}>
+                      <div style={{ flex: 2 }}><label style={labelStyle}>Title</label><input type="text" value={act.title} onChange={e => updateActivity(act.id, 'title', e.target.value)} style={inpStyle} /></div>
+                      <div style={{ width: 120 }}><label style={labelStyle}>Hours</label><input type="number" value={act.hours} onChange={e => updateActivity(act.id, 'hours', e.target.value)} style={inpStyle} /></div>
+                    </div>
+                    <div><label style={labelStyle}>Raw Notes</label><textarea value={act.notes} onChange={e => updateActivity(act.id, 'notes', e.target.value)} style={{ ...inpStyle, height: 120 }} /></div>
+                    <div style={{ textAlign: 'right', marginTop: 16 }}><button onClick={() => deleteActivity(act.id)} style={{ background: 'none', border: 'none', color: '#EF4444', fontWeight: 600, cursor: 'pointer' }}>Delete</button></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ── TAB: AI COACH ── */}
+          {tab === 'coach' && (
+             <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 80px)' }}>
+             <div style={{ flex: 1, overflowY: 'auto', paddingBottom: 100 }}>
+               {messages.map((m, i) => (
+                 <div key={i} style={{ display: 'flex', justifyContent: m.role==='user'?'flex-end':'flex-start', marginBottom: 24 }}>
+                   {!m.role==='user' && <div style={{ width: 36, height: 36, borderRadius: 12, background: 'linear-gradient(135deg, #3B82F6, #10B981)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', marginRight: 16 }}>M</div>}
+                   <div style={{ maxWidth: '80%', background: m.role==='user'?'#2563EB':'#111827', border: m.role==='user'?'none':'1px solid #1F2937', borderRadius: 24, padding: '20px 24px', lineHeight: 1.7 }} dangerouslySetInnerHTML={{ __html: m.content }} />
+                 </div>
+               ))}
+               <div ref={bottomRef} />
+             </div>
+             <div style={{ position: 'fixed', bottom: 0, left: 280, right: 0, padding: '32px 60px', background: '#030712' }}>
+               <div style={{ position: 'relative' }}>
+                 <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>{ if(e.key === 'Enter') sendToCoach() }} placeholder="Ask your coach anything..." style={{ width: '100%', padding: '20px 70px 20px 24px', background: '#111827', border: '1px solid #374151', borderRadius: 20, color: '#fff', outline: 'none' }} />
+                 <button onClick={sendToCoach} style={{ position: 'absolute', right: 12, top: 12, bottom: 12, width: 48, borderRadius: 12, background: '#3B82F6', border: 'none', color: '#fff', cursor: 'pointer' }}>↑</button>
+               </div>
+             </div>
+           </div>
+          )}
+
+        </div>
+      </div>
+      <style>{`.fade-in { animation: fadeIn 0.4s ease-out; } @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }`}</style>
+    </div>
+  )
+}
+
+const navStyle = (active) => ({ background: active ? '#1F2937' : 'transparent', color: active ? '#F9FAFB' : '#9CA3AF', border: 'none', padding: '12px 16px', borderRadius: 12, textAlign: 'left', fontSize: 14, fontWeight: 600, cursor: 'pointer', display: 'flex', gap: 12, margin: '0 8px' })
+const labelStyle = { display: 'block', fontSize: 12, fontWeight: 700, color: '#6B7280', textTransform: 'uppercase', marginBottom: 8 }
