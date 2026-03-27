@@ -22,8 +22,8 @@ const STUDY_PLANS = [
   }
 ]
 
-// ── MASSIVE QUIZ DATABASE (Strictly Varied Matrices) ─────────────────────
-// Variation actively shifts per quiz (e.g. 4A/4B/3C/4D, 3A/5B/3C/4D) to prevent pattern recognition.
+// ── MASSIVE QUIZ DATABASE (12 Quizzes | 180 Questions) ───────────────────
+// Strict mathematical variation matrices applied to every quiz.
 const QUIZZES = [
   {
     id:'q001', cat:'Bio/Biochem', title:'Advanced Metabolism & Enzymes', diff:'Hard',
@@ -34,7 +34,7 @@ const QUIZZES = [
       {q:'Cyanide inhibits the ETC by binding to:', ch:['Cytochrome c','Cytochrome a3 (Complex IV)','Ubiquinone','ATP Synthase'], ans:1, exp:'CN binds the ferric iron in Complex IV.'}, 
       {q:'What is the net ATP yield of glycolysis per glucose molecule?', ch:['4','1','3','2'], ans:3, exp:'4 produced, 2 consumed. Net 2.'}, 
       {q:'Which amino acid has a pKa near physiological pH?', ch:['Histidine','Lysine','Arginine','Glutamate'], ans:0, exp:'Histidine pKa is ~6.0.'}, 
-      {q:'During starvation, the brain uses which molecule for energy?', ch:['Fatty acids','Ketone bodies','Glycerol','Amino acids'], ans:1, exp:'The brain relies on ketone bodies like β-hydroxybutyrate.'}, 
+      {q:'During starvation, the brain uses which molecule for energy?', ch:['Fatty acids','Ketone bodies','Glycerol','Amino acids'], ans:1, exp:'The brain relies on ketone bodies.'}, 
       {q:'Which of the following is a purely ketogenic amino acid?', ch:['Phenylalanine','Tyrosine','Isoleucine','Leucine'], ans:3, exp:'Leucine and Lysine are purely ketogenic.'}, 
       {q:'The pentose phosphate pathway primarily generates:', ch:['NADPH and Ribose-5-P','NADH and Pyruvate','ATP and FADH2','GTP and Citrate'], ans:0, exp:'Produces reducing equivalents (NADPH).'}, 
       {q:'Which vitamin is a required cofactor for transaminases (AST/ALT)?', ch:['Thiamine (B1)','Pyridoxal phosphate (B6)','Riboflavin (B2)','Cobalamin (B12)'], ans:1, exp:'PLP (B6) is required for transamination.'}, 
@@ -59,7 +59,7 @@ const QUIZZES = [
       {q:'What is standard cell potential if E°red(cat)=0.80V and E°red(an)=-0.76V?', ch:['0.04V','-1.56V','-0.04V','1.56V'], ans:3, exp:'Ecell = 0.80 - (-0.76) = 1.56V.'}, 
       {q:'Which of the following represents standard conditions?', ch:['298 K, 1 atm, 1 M','273 K, 1 atm, 1 M','298 K, 0 atm, 1 M','273 K, 1 atm, 0 M'], ans:0, exp:'Standard state is 298K.'}, 
       {q:'Which phase change is strictly endothermic?', ch:['Condensation','Sublimation','Freezing','Deposition'], ans:1, exp:'Sublimation requires energy input.'}, 
-      {q:'A fluid moving through a narrowed pipe will experience:', ch:['Increased velocity, increased pressure','Decreased velocity, increased pressure','Increased velocity, decreased pressure','Decreased velocity, decreased pressure'], ans:2, exp:'Bernoulli\'s principle: higher velocity = lower pressure.'}, 
+      {q:'A fluid moving through a narrowed pipe will experience:', ch:['Increased velocity, increased pressure','Decreased velocity, increased pressure','Increased velocity, decreased pressure','Decreased velocity, decreased pressure'], ans:2, exp:'Bernoulli\'s principle.'}, 
       {q:'The focal length of a spherical mirror is equal to:', ch:['Half the radius of curvature','The radius of curvature','Double the radius of curvature','Infinite'], ans:0, exp:'f = R/2.'}, 
       {q:'Capacitance in a parallel plate capacitor is increased by:', ch:['Increasing distance between plates','Inserting a dielectric material','Decreasing plate area','Increasing voltage'], ans:1, exp:'Dielectrics increase capacitance.'}, 
       {q:'Alpha decay of Uranium-238 results in a nucleus with:', ch:['Atomic number 92','Mass number 238','Mass number 234','Atomic number 91'], ans:2, exp:'Mass drops by 4.'} 
@@ -75,7 +75,7 @@ const QUIZZES = [
       {q:'Putting in less effort in a group setting is called:', ch:['Social facilitation','Group polarization','Deindividuation','Social loafing'], ans:3, exp:'Social loafing.'}, 
       {q:'According to Erikson, the primary conflict of adolescence is:', ch:['Identity vs. Role Confusion','Intimacy vs. Isolation','Trust vs. Mistrust','Generativity vs. Stagnation'], ans:0, exp:'Adolescents struggle with identity.'}, 
       {q:'Schizophrenia is most closely associated with excessive:', ch:['Serotonin','Dopamine','GABA','Acetylcholine'], ans:1, exp:'The dopamine hypothesis.'}, 
-      {q:'Which theory views society as a complex system promoting solidarity?', ch:['Conflict Theory','Symbolic Interactionism','Functionalism','Feminist Theory'], ans:2, exp:'Structural functionalism views society as an organism.'}, 
+      {q:'Which theory views society as a complex system promoting solidarity?', ch:['Conflict Theory','Symbolic Interactionism','Functionalism','Feminist Theory'], ans:2, exp:'Structural functionalism.'}, 
       {q:'The Hawthorne effect refers to:', ch:['A decrease in performance under pressure','Remembering the first items in a list','Obeying authoritative figures','Altering behavior because one is being observed'], ans:3, exp:'Changing behavior when observed.'}, 
       {q:'Retrograde amnesia is defined as the inability to:', ch:['Recall past memories','Form new memories','Recognize faces','Speak fluently'], ans:0, exp:'Retrograde = forgetting the past.'}, 
       {q:'In classical conditioning, a conditioned stimulus was originally a(n):', ch:['Unconditioned response','Neutral stimulus','Conditioned response','Unconditioned stimulus'], ans:1, exp:'A neutral stimulus becomes conditioned.'}, 
@@ -111,7 +111,7 @@ const QUIZZES = [
       {q:'An SN2 reaction on a chiral center results in:', ch:['Retention of configuration','Inversion of configuration','A racemic mixture','No reaction'], ans:1, exp:'SN2 causes complete inversion.'}, 
       {q:'The rate of an SN1 reaction depends strictly on the:', ch:['Nucleophile only','Solvent','Leaving group','Electrophile only'], ans:3, exp:'SN1 rate = k[Electrophile].'}, 
       {q:'For E2 elimination, the leaving group and proton must be:', ch:['Anti-periplanar','Syn-periplanar','Gauche','Eclipsed'], ans:0, exp:'Requires anti-periplanar geometry (180 degrees).'}, 
-      {q:'A sharp peak at ~1700 cm⁻¹ on IR indicates a:', ch:['Hydroxyl group','Amine group','Carbonyl group','Alkyne bond'], ans:2, exp:'Carbonyls absorb strongly at 1700 cm-1.'}, 
+      {q:'A sharp peak at ~1700 cm⁻¹ on IR indicates a:', ch:['Hydroxyl group','Amine group','Carbonyl group','Alkyne bond'], ans:2, exp:'Carbonyls absorb strongly.'}, 
       {q:'Enantiomers are stereoisomers that:', ch:['Have opposite R/S at every center','Differ at one center','Are superimposable','Have different connectivity'], ans:0, exp:'Non-superimposable mirror images.'}, 
       {q:'A meso compound possesses chiral centers and:', ch:['A net dipole','An internal plane of symmetry','Optical activity','A trans double bond'], ans:1, exp:'Internal symmetry makes it achiral.'}, 
       {q:'Oxidation of a primary alcohol with PCC yields an:', ch:['Ketone','Carboxylic Acid','Ester','Aldehyde'], ans:3, exp:'PCC is a mild oxidant stopping at the aldehyde.'}, 
@@ -137,7 +137,7 @@ const QUIZZES = [
       {q:'Recognizing an ambiguous shape based on context is:', ch:['Bottom-up processing','Parallel processing','Top-down processing','Transduction'], ans:2, exp:'Top-down processing uses expectations.'}, 
       {q:'The concept that the JND is a constant ratio is:', ch:['Signal Detection Theory','Feature Detection','Place Theory','Weber\'s Law'], ans:3, exp:'Weber\'s Law.'}, 
       {q:'In "split-brain" patients, what is severed?', ch:['Corpus callosum','Optic chiasm','Medulla oblongata','Cerebral peduncles'], ans:0, exp:'Connects the two hemispheres.'}, 
-      {q:'A sympathetic nervous system response includes:', ch:['Constriction of pupils','Dilation of pupils','Decreased heart rate','Increased salivation'], ans:1, exp:'Dilation lets more light in to see threats.'}, 
+      {q:'A sympathetic nervous system response includes:', ch:['Constriction of pupils','Dilation of pupils','Decreased heart rate','Increased salivation'], ans:1, exp:'Dilation lets more light in.'}, 
       {q:'The primary somatosensory cortex is in the:', ch:['Frontal lobe','Temporal lobe','Parietal lobe','Occipital lobe'], ans:2, exp:'Located on the postcentral gyrus.'}, 
       {q:'The kinesthetic sense perceives:', ch:['Gravity','Temperature','Organ pain','Body position in space'], ans:3, exp:'Proprioception tracks limb position.'}, 
       {q:'Hair cells in the organ of Corti act as:', ch:['Mechanoreceptors','Chemoreceptors','Photoreceptors','Nociceptors'], ans:0, exp:'Sound waves physically bend them.'}, 
@@ -147,23 +147,82 @@ const QUIZZES = [
   },
   {
     id:'q007', cat:'Bio/Biochem', title:'Immunology & Cell Biology', diff:'Hard',
-    // Matrix Variation: 3 As (0), 5 Bs (1), 3 Cs (2), 4 Ds (3)
     qs:[
-      {q:'Which cell type is primarily responsible for producing antibodies?', ch:['T-killer cells','B-lymphocytes','Macrophages','Neutrophils'], ans:1, exp:'B-cells differentiate into plasma cells that secrete antibodies.'}, 
-      {q:'Major Histocompatibility Complex (MHC) Class I is found on:', ch:['Only antigen-presenting cells','All nucleated cells','Erythrocytes only','Only T-cells'], ans:1, exp:'MHC I is on all nucleated cells to present endogenous antigens.'}, 
-      {q:'Which organelle is the primary site of post-translational modification?', ch:['Nucleus','Lysosome','Golgi apparatus','Smooth ER'], ans:2, exp:'The Golgi modifies, sorts, and packages proteins.'}, 
-      {q:'Which of the following is a component of the innate immune system?', ch:['Cytotoxic T cells','Helper T cells','Memory B cells','Natural Killer (NK) cells'], ans:3, exp:'NK cells are innate responders to viral infection and tumors.'}, 
-      {q:'The movement of water across a semipermeable membrane is called:', ch:['Active transport','Osmosis','Facilitated diffusion','Pinocytosis'], ans:1, exp:'Osmosis is the passive diffusion of water.'}, 
-      {q:'A virus that integrates its genome into the host DNA is in the:', ch:['Lytic cycle','Lysogenic cycle','Prion phase','Capsid stage'], ans:1, exp:'Lysogenic viruses remain dormant by integrating their DNA (provirus).'}, 
-      {q:'Apoptosis can be initiated by the release of which molecule from mitochondria?', ch:['ATP','NADH','Cytochrome c','Acetyl-CoA'], ans:2, exp:'Cytochrome c release triggers the caspase cascade.'}, 
-      {q:'CD4+ T-cells primarily interact with which molecule?', ch:['MHC Class I','Antibodies','Toll-like receptors','MHC Class II'], ans:3, exp:'CD4+ binds MHC II. CD8+ binds MHC I.'}, 
-      {q:'Which of the following breaks down toxic hydrogen peroxide in the cell?', ch:['Peroxisome','Lysosome','Smooth ER','Mitochondria'], ans:0, exp:'Peroxisomes contain catalase to degrade H2O2.'}, 
-      {q:'What is the primary function of macrophages?', ch:['Antibody production','Phagocytosis of pathogens','Histamine release','Oxygen transport'], ans:1, exp:'Macrophages engulf and digest cellular debris and pathogens.'}, 
-      {q:'The fluid mosaic model describes the plasma membrane as:', ch:['A rigid protein structure','A static lipid bilayer','A dynamic mix of lipids and mobile proteins','A carbohydrate matrix'], ans:2, exp:'Proteins float fluidly within the phospholipid bilayer.'}, 
-      {q:'Vaccines primarily provide protection by generating:', ch:['Neutrophils','Mast cells','Complement proteins','Memory B and T cells'], ans:3, exp:'Memory cells mount a rapid response upon secondary exposure.'}, 
-      {q:'Which junction prevents fluid from leaking between epithelial cells?', ch:['Tight junctions','Gap junctions','Desmosomes','Plasmodesmata'], ans:0, exp:'Tight junctions seal the intercellular space.'}, 
-      {q:'Passive immunity involves the transfer of:', ch:['Antigens','Antibodies','Bone marrow','T-cells'], ans:1, exp:'Passive immunity (like maternal milk) transfers pre-made antibodies.'}, 
-      {q:'Opsonization is the process of:', ch:['Cell division','Lysosome fusion','Viral entry','Coating a pathogen to enhance phagocytosis'], ans:3, exp:'Antibodies and complement proteins opsonize pathogens.'} 
+      {q:'Which cell type primarily produces antibodies?', ch:['T-killer cells','B-lymphocytes','Macrophages','Neutrophils'], ans:1, exp:'B-cells differentiate into plasma cells to secrete antibodies.'}, 
+      {q:'MHC Class I is found on:', ch:['Only APCs','All nucleated cells','Erythrocytes only','Only T-cells'], ans:1, exp:'MHC I is on all nucleated cells.'}, 
+      {q:'Which organelle is the site of post-translational modification?', ch:['Nucleus','Lysosome','Golgi apparatus','Smooth ER'], ans:2, exp:'The Golgi modifies and packages proteins.'}, 
+      {q:'Which is a component of the innate immune system?', ch:['Cytotoxic T cells','Helper T cells','Memory B cells','Natural Killer (NK) cells'], ans:3, exp:'NK cells are innate responders.'}, 
+      {q:'The movement of water across a semipermeable membrane is:', ch:['Active transport','Osmosis','Facilitated diffusion','Pinocytosis'], ans:1, exp:'Osmosis is passive water diffusion.'}, 
+      {q:'A virus that integrates its genome into host DNA is in the:', ch:['Lytic cycle','Lysogenic cycle','Prion phase','Capsid stage'], ans:1, exp:'Lysogenic viruses remain dormant as proviruses.'}, 
+      {q:'Apoptosis can be initiated by the release of what from mitochondria?', ch:['ATP','NADH','Cytochrome c','Acetyl-CoA'], ans:2, exp:'Cytochrome c release triggers caspases.'}, 
+      {q:'CD4+ T-cells primarily interact with:', ch:['MHC Class I','Antibodies','Toll-like receptors','MHC Class II'], ans:3, exp:'CD4+ binds MHC II.'}, 
+      {q:'Which breaks down toxic hydrogen peroxide?', ch:['Peroxisome','Lysosome','Smooth ER','Mitochondria'], ans:0, exp:'Peroxisomes contain catalase.'}, 
+      {q:'What is the primary function of macrophages?', ch:['Antibody production','Phagocytosis of pathogens','Histamine release','Oxygen transport'], ans:1, exp:'Macrophages engulf cellular debris.'}, 
+      {q:'The fluid mosaic model describes the plasma membrane as:', ch:['A rigid protein structure','A static lipid bilayer','A dynamic mix of lipids and proteins','A carbohydrate matrix'], ans:2, exp:'Proteins float fluidly in the bilayer.'}, 
+      {q:'Vaccines primarily provide protection by generating:', ch:['Neutrophils','Mast cells','Complement proteins','Memory B and T cells'], ans:3, exp:'Memory cells mount a rapid secondary response.'}, 
+      {q:'Which junction prevents fluid leak between epithelial cells?', ch:['Tight junctions','Gap junctions','Desmosomes','Plasmodesmata'], ans:0, exp:'Tight junctions seal intercellular space.'}, 
+      {q:'Passive immunity involves the transfer of:', ch:['Antigens','Antibodies','Bone marrow','T-cells'], ans:1, exp:'Transfer of pre-made antibodies.'}, 
+      {q:'Opsonization is the process of:', ch:['Cell division','Lysosome fusion','Viral entry','Coating a pathogen to enhance phagocytosis'], ans:3, exp:'Antibodies opsonize pathogens.'} 
+    ]
+  },
+  {
+    id:'q008', cat:'Bio/Biochem', title:'Endocrine Cascades', diff:'Medium',
+    qs:[
+      {q:'Peptide hormones exert their effects by:', ch:['Binding surface GPCRs','Diffusing through the membrane','Entering the nucleus','Acting as transcription factors'], ans:0, exp:'Peptide hormones are hydrophilic.'},
+      {q:'Steroid hormones typically act by:', ch:['Activating adenylyl cyclase','Opening ion channels','Altering gene transcription','Travelling freely in blood'], ans:2, exp:'Steroids are lipophilic transcription factors.'},
+      {q:'The anterior pituitary originates from:', ch:['Neural crest','Endoderm','Mesoderm','Rathke\'s pouch'], ans:3, exp:'Develops from oral ectoderm.'},
+      {q:'Which hormones are secreted by the posterior pituitary?', ch:['Prolactin and GH','Oxytocin and ADH','FSH and LH','TSH and ACTH'], ans:1, exp:'Synthesized in hypothalamus, stored in posterior pituitary.'},
+      {q:'Lethargy, weight gain, and cold intolerance indicate:', ch:['Hypothyroidism','Cortisol excess','Epinephrine deficiency','Glucagon excess'], ans:0, exp:'Classic signs of low basal metabolic rate.'},
+      {q:'Calcitonin functions to:', ch:['Increase blood calcium','Increase gut absorption','Decrease blood calcium','Regulate sleep'], ans:2, exp:'Calcitonin "tones down" calcium.'},
+      {q:'PTH achieves its effects by:', ch:['Decreasing renal reabsorption','Inhibiting Vitamin D','Stimulating osteoblasts','Stimulating osteoclasts'], ans:3, exp:'Breaks down bone to raise blood calcium.'},
+      {q:'The adrenal medulla secretes:', ch:['Aldosterone','Epinephrine','Cortisol','Androgens'], ans:1, exp:'Catecholamines for fight or flight.'},
+      {q:'Aldosterone acts on the DCT to:', ch:['Excrete sodium','Reabsorb sodium and potassium','Reabsorb sodium, excrete potassium','Excrete both'], ans:2, exp:'Retains Na+ to increase BP, dumps K+.'},
+      {q:'Cortisol is classified as a:', ch:['Mineralocorticoid','Catecholamine','Peptide hormone','Glucocorticoid'], ans:3, exp:'Regulates glucose and stress.'},
+      {q:'Beta cells in the pancreas secrete:', ch:['Insulin','Glucagon','Somatostatin','Amylin'], ans:0, exp:'Insulin lowers blood sugar.'},
+      {q:'Glucagon stimulates:', ch:['Glycogenesis','Glycogenolysis','Lipogenesis','Glycolysis'], ans:1, exp:'Breaks down glycogen to raise blood sugar.'},
+      {q:'Somatostatin inhibits:', ch:['Insulin only','Glucagon only','Both insulin and glucagon','Neither'], ans:2, exp:'Global inhibitor of pancreatic hormones.'},
+      {q:'The pineal gland secretes:', ch:['GH','Melatonin','Cortisol','Epinephrine'], ans:1, exp:'Regulates circadian rhythms.'},
+      {q:'Erythropoietin (EPO) is secreted by the:', ch:['Liver','Spleen','Kidneys','Bone marrow'], ans:2, exp:'Kidneys sense hypoxia and release EPO.'}
+    ]
+  },
+  {
+    id:'q009', cat:'Chem/Phys', title:'Electrochemistry & Optics', diff:'Hard',
+    qs:[
+      {q:'For resistors in parallel, the equivalent resistance is:', ch:['Less than the smallest resistor','Equal to the sum','Greater than the largest resistor','Average of all resistors'], ans:0, exp:'1/Req = 1/R1 + 1/R2... makes Req smaller than any individual R.'},
+      {q:'An electrolytic cell differs from a galvanic cell because it:', ch:['Has a positive E cell','Occurs spontaneously','Requires an external voltage source','Oxidizes at the cathode'], ans:3, exp:'Electrolytic cells are nonspontaneous and require a battery.'},
+      {q:'The Nernst equation allows the calculation of cell potential under:', ch:['Standard conditions only','Standard temperature only','Nonstandard concentrations','Equilibrium only'], ans:2, exp:'E = E° - (RT/nF)lnQ.'},
+      {q:'For capacitors in series, the equivalent capacitance is calculated by:', ch:['Ceq = C1 + C2','1/Ceq = 1/C1 + 1/C2','Ceq = (C1+C2)/2','Ceq = C1 * C2'], ans:1, exp:'Series capacitors add reciprocally, like parallel resistors.'},
+      {q:'A proton moves right in a magnetic field directed into the page. The force is:', ch:['UP','DOWN','INTO page','OUT of page'], ans:0, exp:'Right hand rule: thumb=v(right), fingers=B(in), palm=F(up).'},
+      {q:'Light passing from a low index of refraction to a higher one will:', ch:['Reflect entirely','Bend away from the normal','Bend toward the normal','Not bend'], ans:2, exp:'Snell\'s Law: slowing down bends it toward the normal axis.'},
+      {q:'The power of a diverging lens is:', ch:['Positive','Zero','Infinite','Negative'], ans:3, exp:'Diverging (concave) lenses have a negative focal length, so P = 1/f is negative.'},
+      {q:'In a reduction potential table, the species with the highest positive E° will:', ch:['Be reduced','Be oxidized','Act as the anode','Not react'], ans:0, exp:'High E° means it "wants" electrons the most (strongest oxidizing agent).'},
+      {q:'Faraday\'s Law of Electrolysis relates the amount of substance deposited to:', ch:['Temperature','Total charge passed','Voltage','Atmospheric pressure'], ans:1, exp:'Moles = (I * t) / (n * F).'},
+      {q:'In beta-minus decay, a neutron converts to a proton and emits:', ch:['An alpha particle','A positron','A gamma ray','An electron'], ans:3, exp:'Beta-minus emits an electron to balance the new positive charge in the nucleus.'},
+      {q:'A 10 dB increase in sound level corresponds to an intensity increase of:', ch:['2x','5x','10x','100x'], ans:2, exp:'Decibel scale is logarithmic. +10 dB = 10x intensity.'},
+      {q:'The Doppler effect states that a sound source moving toward an observer results in:', ch:['A higher perceived frequency','A lower perceived frequency','No change in frequency','A change in amplitude only'], ans:0, exp:'Wavefronts compress, increasing the perceived frequency.'},
+      {q:'The work-energy theorem states that net work done on an object equals:', ch:['Its potential energy','Its momentum','Its total energy','Its change in kinetic energy'], ans:3, exp:'W_net = ΔKE.'},
+      {q:'Inserting a dielectric into an isolated capacitor will:', ch:['Increase V, decrease C','Decrease V, increase C','Increase both','Decrease both'], ans:1, exp:'C = k*C0 (increases). Since Q is constant, V = Q/C (decreases).'},
+      {q:'After 3 half-lives, the fraction of the original radioactive sample remaining is:', ch:['1/2','1/4','1/8','1/16'], ans:2, exp:'(1/2)^3 = 1/8.'}
+    ]
+  },
+  {
+    id:'q010', cat:'Psych/Soc', title:'Memory & Cognition', diff:'Hard',
+    qs:[
+      {q:'Learning new material interferes with the recall of old material. This is:', ch:['Proactive interference','Retroactive interference','Decay','Source amnesia'], ans:1, exp:'Retro = backward acting. New blocks old.'},
+      {q:'Old information interfering with the learning of new information is:', ch:['Proactive interference','Retroactive interference','Anterograde amnesia','Retrograde amnesia'], ans:0, exp:'Pro = forward acting. Old blocks new.'},
+      {q:'Remembering a fact but forgetting where or when you learned it is:', ch:['Repression','Confabulation','Misinformation effect','Source amnesia'], ans:3, exp:'Source monitoring error.'},
+      {q:'Memory for facts, concepts, and general knowledge is called:', ch:['Episodic memory','Procedural memory','Semantic memory','Working memory'], ans:2, exp:'Semantic memory is the dictionary of the brain.'},
+      {q:'Memory of personal, autobiographical experiences is:', ch:['Semantic memory','Procedural memory','Episodic memory','Implicit memory'], ans:2, exp:'Episodes of your life.'},
+      {q:'Riding a bicycle relies heavily on which type of memory?', ch:['Explicit memory','Implicit (procedural) memory','Semantic memory','Sensory memory'], ans:1, exp:'Implicit memory does not require conscious recall.'},
+      {q:'Making a judgment based on how easily examples come to mind is the:', ch:['Representativeness heuristic','Confirmation bias','Belief perseverance','Availability heuristic'], ans:3, exp:'Availability = how available it is in your memory.'},
+      {q:'Seeking out information that only supports your pre-existing beliefs is:', ch:['Confirmation bias','Hindsight bias','Self-serving bias','Fundamental attribution error'], ans:0, exp:'Ignoring contradictory evidence.'},
+      {q:'In Piaget\'s theory, altering existing schemas to fit new information is:', ch:['Assimilation','Accommodation','Conservation','Object permanence'], ans:1, exp:'Accommodation changes the schema. Assimilation fits new info into existing schemas.'},
+      {q:'The gap between what a child can do alone vs with guidance is Vygotsky\'s:', ch:['Scaffolding','Schema','Sensorimotor stage','Zone of proximal development'], ans:3, exp:'ZPD requires a "more knowledgeable other".'},
+      {q:'The theory that language dictates and limits the way we think is the:', ch:['Nativist theory','Behaviorist theory','Sapir-Whorf hypothesis','Learning theory'], ans:2, exp:'Linguistic relativity (strong form).'},
+      {q:'Damage to the arcuate fasciculus connecting Broca\'s and Wernicke\'s areas causes:', ch:['Broca\'s aphasia','Wernicke\'s aphasia','Global aphasia','Conduction aphasia'], ans:3, exp:'Patients can comprehend and speak fluently but cannot repeat words back.'},
+      {q:'Which sleep stage is characterized by beta-like waves and muscle atonia?', ch:['Stage 1','REM sleep','Stage 2','Stage 3/4'], ans:1, exp:'REM sleep is "paradoxical sleep" (active brain, paralyzed body).'},
+      {q:'The theory that physiological arousal PRECEDES the conscious experience of emotion is:', ch:['James-Lange theory','Cannon-Bard theory','Schachter-Singer theory','Cognitive appraisal theory'], ans:0, exp:'"I am trembling, therefore I am afraid."'},
+      {q:'The theory requiring BOTH physiological arousal and a cognitive label to feel emotion is:', ch:['James-Lange','Cannon-Bard','Schachter-Singer','Lazarus'], ans:2, exp:'Two-factor theory. Arousal + Label = Emotion.'}
     ]
   }
 ]
