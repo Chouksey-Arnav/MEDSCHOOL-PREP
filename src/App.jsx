@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, memo, useCallback } from 'react';
-import 'katex/dist/katex.min.css';
 import katex from 'katex';
 
 // ---------------------- API & Helpers ----------------------
