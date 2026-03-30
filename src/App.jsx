@@ -114,7 +114,7 @@ function expandBank(templates, targetSize = 1200) {
   return bank;
 }
 
-const QUESTION_BANK = expandBank(TEMPLATES, 1200); // Over 1,000 unique questions
+const QUESTION_BANK = expandBank(TEMPLATES, 8000); // Over 1,000 unique questions
 
 // ---------------------- Quiz Generator (300 quizzes, 15 questions each) ----------------------
 function generateAllQuizzes() {
