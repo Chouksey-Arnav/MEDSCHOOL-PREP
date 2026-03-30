@@ -129,7 +129,7 @@ function generateAllQuizzes() {
     'Psych/Soc': QUESTION_BANK.filter(q => q.category === 'Psych/Soc')
   };
 
-  for (let id = 1; id <= 300; id++) {
+  for (let id = 1; id <= 1500; id++) {
     const pattern = answerPatterns[(id - 1) % answerPatterns.length];
     const primaryCat = categories[(id - 1) % categories.length];
     const questionsForQuiz = [];
