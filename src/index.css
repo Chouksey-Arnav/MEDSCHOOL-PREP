@@ -2,17 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Huly-style scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #030712;
-}
-::-webkit-scrollbar-thumb {
-  background: #1f2937;
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #374151;
+/* Custom background to ensure the dark mode is perfect */
+body {
+  @apply bg-[#030014] text-white;
 }
