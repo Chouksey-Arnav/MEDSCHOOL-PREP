@@ -6,8 +6,8 @@ export default {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+      colors: {
+        // You can add custom Huly colors here later
       },
     },
   },
