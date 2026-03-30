@@ -44,87 +44,263 @@ const DIAGNOSTIC_QS = [
 ];
 
 /* ═══════════════════════════════════════════════════════════════════
-   SPECIALTY PATHS (Khan Academy structure)
+   SPECIALTY PATHS — FIXED: added masteryTotal:4 to every unit
+                             added id to every lesson
 ═══════════════════════════════════════════════════════════════════ */
 const PATHS = {
   surgery: {
     label: 'General Surgery', icon: '🔬', accent: '#ef4444', border: 'border-red-500/40',
     tagline: 'Master anatomy, physiology & surgical science',
     units: [
-      { id: 'su1', title: 'Biochemistry Foundations', desc: 'Amino acids, enzymes, metabolism', cat: 'Bio/Biochem', req: 3, xp: 150,
-        lessons: [{ title: 'Amino Acid Structure & Properties', url: 'https://www.khanacademy.org/test-prep/mcat/biomolecules', dur: '18 min', note: 'Know pKa: Asp/Glu (acidic), Lys/Arg/His (basic)' }, { title: 'Enzyme Kinetics & Inhibition', url: 'https://www.khanacademy.org/test-prep/mcat/biomolecules', dur: '22 min', note: 'Lineweaver-Burk plot: competitive raises Km, non-competitive lowers Vmax' }, { title: 'Glycolysis & the TCA Cycle', url: 'https://www.khanacademy.org/test-prep/mcat/biomolecules', dur: '25 min', note: 'Net: 2 ATP from glycolysis; 32 ATP from oxidative phosphorylation' }] },
-      { id: 'su2', title: 'Cardiovascular & Respiratory', desc: 'Heart, lungs, hemodynamics', cat: 'Chem/Phys', req: 3, xp: 175,
-        lessons: [{ title: 'Cardiac Cycle & Hemodynamics', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Starling curve: increased preload → increased stroke volume' }, { title: 'Respiratory Mechanics & Gas Exchange', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'V/Q mismatch: dead space (no perfusion) vs shunt (no ventilation)' }, { title: 'Acid-Base Disorders', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Use Henderson-Hasselbalch & the ROME mnemonic' }] },
-      { id: 'su3', title: 'Musculoskeletal System', desc: 'Bones, muscles, connective tissue', cat: 'Bio/Biochem', req: 3, xp: 175,
-        lessons: [{ title: 'Sliding Filament & Muscle Contraction', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Ca²⁺ releases troponin inhibition → myosin binds actin' }, { title: 'Bone Remodeling & Mineral Homeostasis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '17 min', note: 'PTH ↑ Ca²⁺ serum; calcitonin ↓ Ca²⁺ serum' }, { title: 'Collagen & Connective Tissue Disorders', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Type I=bone/tendon, Type II=cartilage, Type IV=basement membrane' }] },
-      { id: 'su4', title: 'Molecular Biology & Genetics', desc: 'DNA, RNA, gene regulation', cat: 'Bio/Biochem', req: 3, xp: 200,
-        lessons: [{ title: 'DNA Replication & Repair', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Leading strand continuous, lagging strand uses Okazaki fragments' }, { title: 'Transcription, Translation & Post-translational Modification', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'RNA Pol II transcribes mRNA; Signal sequences target proteins to ER' }, { title: 'Mendelian Genetics & Pedigree Analysis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Hardy-Weinberg: p² + 2pq + q² = 1; use for allele frequency problems' }] },
-      { id: 'su5', title: 'Physics & Fluid Dynamics', desc: 'Mechanics, fluids, thermodynamics', cat: 'Chem/Phys', req: 3, xp: 200,
-        lessons: [{ title: "Poiseuille's Law & Fluid Mechanics", url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Q ∝ r⁴ — radius is the most critical variable in flow rate' }, { title: 'Circuits & Electricity', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Resistors in series add; in parallel: 1/R_total = Σ1/Rn' }, { title: 'Thermodynamics & Free Energy', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'ΔG = ΔH - TΔS; spontaneous when ΔG < 0' }] },
+      {
+        id: 'su1', title: 'Biochemistry Foundations', desc: 'Amino acids, enzymes, metabolism',
+        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 150,
+        lessons: [
+          { id: 'su1-l1', title: 'Amino Acid Structure & Properties', url: 'https://www.khanacademy.org/test-prep/mcat/biomolecules', dur: '18 min', note: 'Know pKa: Asp/Glu (acidic), Lys/Arg/His (basic)' },
+          { id: 'su1-l2', title: 'Enzyme Kinetics & Inhibition', url: 'https://www.khanacademy.org/test-prep/mcat/biomolecules', dur: '22 min', note: 'Lineweaver-Burk plot: competitive raises Km, non-competitive lowers Vmax' },
+          { id: 'su1-l3', title: 'Glycolysis & the TCA Cycle', url: 'https://www.khanacademy.org/test-prep/mcat/biomolecules', dur: '25 min', note: 'Net: 2 ATP from glycolysis; 32 ATP from oxidative phosphorylation' },
+        ]
+      },
+      {
+        id: 'su2', title: 'Cardiovascular & Respiratory', desc: 'Heart, lungs, hemodynamics',
+        cat: 'Chem/Phys', req: 3, masteryTotal: 4, xp: 175,
+        lessons: [
+          { id: 'su2-l1', title: 'Cardiac Cycle & Hemodynamics', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Starling curve: increased preload → increased stroke volume' },
+          { id: 'su2-l2', title: 'Respiratory Mechanics & Gas Exchange', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'V/Q mismatch: dead space (no perfusion) vs shunt (no ventilation)' },
+          { id: 'su2-l3', title: 'Acid-Base Disorders', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Use Henderson-Hasselbalch & the ROME mnemonic' },
+        ]
+      },
+      {
+        id: 'su3', title: 'Musculoskeletal System', desc: 'Bones, muscles, connective tissue',
+        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 175,
+        lessons: [
+          { id: 'su3-l1', title: 'Sliding Filament & Muscle Contraction', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Ca²⁺ releases troponin inhibition → myosin binds actin' },
+          { id: 'su3-l2', title: 'Bone Remodeling & Mineral Homeostasis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '17 min', note: 'PTH ↑ Ca²⁺ serum; calcitonin ↓ Ca²⁺ serum' },
+          { id: 'su3-l3', title: 'Collagen & Connective Tissue Disorders', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Type I=bone/tendon, Type II=cartilage, Type IV=basement membrane' },
+        ]
+      },
+      {
+        id: 'su4', title: 'Molecular Biology & Genetics', desc: 'DNA, RNA, gene regulation',
+        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 200,
+        lessons: [
+          { id: 'su4-l1', title: 'DNA Replication & Repair', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Leading strand continuous, lagging strand uses Okazaki fragments' },
+          { id: 'su4-l2', title: 'Transcription, Translation & Post-translational Modification', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'RNA Pol II transcribes mRNA; Signal sequences target proteins to ER' },
+          { id: 'su4-l3', title: 'Mendelian Genetics & Pedigree Analysis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Hardy-Weinberg: p² + 2pq + q² = 1; use for allele frequency problems' },
+        ]
+      },
+      {
+        id: 'su5', title: 'Physics & Fluid Dynamics', desc: 'Mechanics, fluids, thermodynamics',
+        cat: 'Chem/Phys', req: 3, masteryTotal: 4, xp: 200,
+        lessons: [
+          { id: 'su5-l1', title: "Poiseuille's Law & Fluid Mechanics", url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Q ∝ r⁴ — radius is the most critical variable in flow rate' },
+          { id: 'su5-l2', title: 'Circuits & Electricity', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Resistors in series add; in parallel: 1/R_total = Σ1/Rn' },
+          { id: 'su5-l3', title: 'Thermodynamics & Free Energy', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'ΔG = ΔH - TΔS; spontaneous when ΔG < 0' },
+        ]
+      },
     ]
   },
   internal: {
     label: 'Internal Medicine', icon: '🩺', accent: '#3b82f6', border: 'border-blue-500/40',
     tagline: 'Master diagnostic reasoning & pharmacology',
     units: [
-      { id: 'im1', title: 'Pathophysiology Foundations', desc: 'Disease at the cellular level', cat: 'Bio/Biochem', req: 3, xp: 150,
-        lessons: [{ title: 'Inflammation & Immune Response', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'COX-2 → prostaglandins → fever; NSAIDs block this pathway' }, { title: 'Necrosis vs Apoptosis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Apoptosis is programmed (caspase-mediated); necrosis is pathological' }, { title: 'Neoplasia & Cancer Biology', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Proto-oncogenes (gas pedal) vs tumor suppressors (brakes)' }] },
-      { id: 'im2', title: 'Pharmacology Principles', desc: 'Pharmacokinetics & pharmacodynamics', cat: 'Bio/Biochem', req: 3, xp: 175,
-        lessons: [{ title: 'Drug Absorption & Bioavailability', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'First-pass metabolism reduces oral bioavailability; IV = 100%' }, { title: 'Receptor Pharmacology', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'ED50: dose for 50% effect; therapeutic index = LD50/ED50' }, { title: 'Drug Metabolism & CYP450', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'CYP3A4 metabolizes ~50% of drugs; inducers ↑ clearance' }] },
-      { id: 'im3', title: 'Endocrinology', desc: 'Hormones and metabolic axes', cat: 'Bio/Biochem', req: 3, xp: 175,
-        lessons: [{ title: 'Hypothalamic-Pituitary Axis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Negative feedback: high cortisol → suppresses CRH and ACTH' }, { title: 'Thyroid & Adrenal Physiology', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'T3 is active form; T4 is a prohormone converted peripherally' }, { title: 'Diabetes Mellitus & Insulin Signaling', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Type 1: autoimmune β-cell destruction; Type 2: insulin resistance' }] },
-      { id: 'im4', title: 'Electrochemistry & Solutions', desc: 'Galvanic cells, acid-base, colligative', cat: 'Chem/Phys', req: 3, xp: 175,
-        lessons: [{ title: 'Galvanic Cells & Nernst Equation', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'E = E° - (RT/nF)lnQ; cathode = reduction, anode = oxidation' }, { title: 'Acid-Base Equilibria & Buffers', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Best buffer: pKa ± 1 of target pH; bicarbonate buffer in blood' }, { title: 'Osmolarity & Colligative Properties', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Osmotic pressure π = iMRT; tonicity determines cell behavior' }] },
-      { id: 'im5', title: 'Behavioral Science & Sociology', desc: 'Biopsychosocial model', cat: 'Psych/Soc', req: 3, xp: 200,
-        lessons: [{ title: 'Learning, Memory & Conditioning', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Operant: reinforcement/punishment; Classical: CS + US → CR' }, { title: 'Social Cognition & Attribution', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'FAE: over-attribute behavior to disposition vs situation' }, { title: 'Health Disparities & Social Determinants', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'SES, race, geography all influence morbidity/mortality outcomes' }] },
+      {
+        id: 'im1', title: 'Pathophysiology Foundations', desc: 'Disease at the cellular level',
+        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 150,
+        lessons: [
+          { id: 'im1-l1', title: 'Inflammation & Immune Response', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'COX-2 → prostaglandins → fever; NSAIDs block this pathway' },
+          { id: 'im1-l2', title: 'Necrosis vs Apoptosis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Apoptosis is programmed (caspase-mediated); necrosis is pathological' },
+          { id: 'im1-l3', title: 'Neoplasia & Cancer Biology', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Proto-oncogenes (gas pedal) vs tumor suppressors (brakes)' },
+        ]
+      },
+      {
+        id: 'im2', title: 'Pharmacology Principles', desc: 'Pharmacokinetics & pharmacodynamics',
+        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 175,
+        lessons: [
+          { id: 'im2-l1', title: 'Drug Absorption & Bioavailability', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'First-pass metabolism reduces oral bioavailability; IV = 100%' },
+          { id: 'im2-l2', title: 'Receptor Pharmacology', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'ED50: dose for 50% effect; therapeutic index = LD50/ED50' },
+          { id: 'im2-l3', title: 'Drug Metabolism & CYP450', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'CYP3A4 metabolizes ~50% of drugs; inducers ↑ clearance' },
+        ]
+      },
+      {
+        id: 'im3', title: 'Endocrinology', desc: 'Hormones and metabolic axes',
+        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 175,
+        lessons: [
+          { id: 'im3-l1', title: 'Hypothalamic-Pituitary Axis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Negative feedback: high cortisol → suppresses CRH and ACTH' },
+          { id: 'im3-l2', title: 'Thyroid & Adrenal Physiology', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'T3 is active form; T4 is a prohormone converted peripherally' },
+          { id: 'im3-l3', title: 'Diabetes Mellitus & Insulin Signaling', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Type 1: autoimmune β-cell destruction; Type 2: insulin resistance' },
+        ]
+      },
+      {
+        id: 'im4', title: 'Electrochemistry & Solutions', desc: 'Galvanic cells, acid-base, colligative',
+        cat: 'Chem/Phys', req: 3, masteryTotal: 4, xp: 175,
+        lessons: [
+          { id: 'im4-l1', title: 'Galvanic Cells & Nernst Equation', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'E = E° - (RT/nF)lnQ; cathode = reduction, anode = oxidation' },
+          { id: 'im4-l2', title: 'Acid-Base Equilibria & Buffers', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Best buffer: pKa ± 1 of target pH; bicarbonate buffer in blood' },
+          { id: 'im4-l3', title: 'Osmolarity & Colligative Properties', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Osmotic pressure π = iMRT; tonicity determines cell behavior' },
+        ]
+      },
+      {
+        id: 'im5', title: 'Behavioral Science & Sociology', desc: 'Biopsychosocial model',
+        cat: 'Psych/Soc', req: 3, masteryTotal: 4, xp: 200,
+        lessons: [
+          { id: 'im5-l1', title: 'Learning, Memory & Conditioning', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Operant: reinforcement/punishment; Classical: CS + US → CR' },
+          { id: 'im5-l2', title: 'Social Cognition & Attribution', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'FAE: over-attribute behavior to disposition vs situation' },
+          { id: 'im5-l3', title: 'Health Disparities & Social Determinants', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'SES, race, geography all influence morbidity/mortality outcomes' },
+        ]
+      },
     ]
   },
   pediatrics: {
     label: 'Pediatrics', icon: '👶', accent: '#10b981', border: 'border-emerald-500/40',
     tagline: 'Specialize in child development & family medicine',
     units: [
-      { id: 'pe1', title: 'Developmental Biology', desc: 'Embryology & developmental milestones', cat: 'Bio/Biochem', req: 3, xp: 150,
-        lessons: [{ title: 'Embryonic Development & Organogenesis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Teratogens: thalidomide=limb defects, alcohol=FAS, rubella=CHD' }, { title: 'Developmental Milestones by Age', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Gross motor → fine motor → language → social (in order of mastery)' }, { title: 'Chromosomal & Genetic Disorders', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: "Down (Trisomy 21), Turner (45,X), Klinefelter (47,XXY)" }] },
-      { id: 'pe2', title: 'Immunology & Infectious Disease', desc: 'Immunity, vaccines, pediatric infections', cat: 'Bio/Biochem', req: 3, xp: 175,
-        lessons: [{ title: 'Innate vs Adaptive Immunity', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'MHC I presents to CD8+ T cells; MHC II presents to CD4+ T cells' }, { title: 'Vaccine Immunology', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Live-attenuated (MMR) vs inactivated (flu) vs mRNA (COVID) vaccines' }, { title: 'Pediatric Infections Overview', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'RSV, Kawasaki, meningitis—recognize classic presentations' }] },
-      { id: 'pe3', title: 'Child Psychology', desc: 'Cognitive and emotional development', cat: 'Psych/Soc', req: 3, xp: 175,
-        lessons: [{ title: "Piaget's Stages of Cognitive Development", url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Sensorimotor→Preoperational→Concrete→Formal Operational' }, { title: 'Attachment Theory', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Secure, avoidant, anxious-ambivalent, disorganized' }, { title: "Erikson's Psychosocial Stages", url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Stage 1: Trust vs Mistrust (birth–18mo); conflicts proceed through life' }] },
-      { id: 'pe4', title: 'Nutrition & Metabolism', desc: 'Vitamins, lipids, nitrogen metabolism', cat: 'Bio/Biochem', req: 3, xp: 175,
-        lessons: [{ title: 'Vitamins & Cofactors', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Fat-soluble: ADEK; Water-soluble: B vitamins, C. Deficiency diseases!' }, { title: 'Lipid Metabolism & Lipoproteins', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Chylomicrons transport dietary fat; LDL delivers to cells; HDL returns to liver' }, { title: 'Urea Cycle & Nitrogen Metabolism', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Liver detoxifies NH₃ → urea. OTC deficiency → hyperammonemia' }] },
-      { id: 'pe5', title: 'Research Methods & Statistics', desc: 'Study design and statistical analysis', cat: 'Psych/Soc', req: 3, xp: 200,
-        lessons: [{ title: 'Epidemiology & Study Design', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Gold standard: RCT. Cohort=prospective; Case-control=retrospective' }, { title: 'Biostatistics for the MCAT', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Sensitivity=SnNout; Specificity=SpPin. PPV depends on prevalence!' }, { title: 'Ethical Principles in Research', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Belmont Report: Respect, Beneficence, Justice. IRB oversees all research.' }] },
+      {
+        id: 'pe1', title: 'Developmental Biology', desc: 'Embryology & developmental milestones',
+        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 150,
+        lessons: [
+          { id: 'pe1-l1', title: 'Embryonic Development & Organogenesis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Teratogens: thalidomide=limb defects, alcohol=FAS, rubella=CHD' },
+          { id: 'pe1-l2', title: 'Developmental Milestones by Age', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Gross motor → fine motor → language → social (in order of mastery)' },
+          { id: 'pe1-l3', title: 'Chromosomal & Genetic Disorders', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: "Down (Trisomy 21), Turner (45,X), Klinefelter (47,XXY)" },
+        ]
+      },
+      {
+        id: 'pe2', title: 'Immunology & Infectious Disease', desc: 'Immunity, vaccines, pediatric infections',
+        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 175,
+        lessons: [
+          { id: 'pe2-l1', title: 'Innate vs Adaptive Immunity', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'MHC I presents to CD8+ T cells; MHC II presents to CD4+ T cells' },
+          { id: 'pe2-l2', title: 'Vaccine Immunology', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Live-attenuated (MMR) vs inactivated (flu) vs mRNA (COVID) vaccines' },
+          { id: 'pe2-l3', title: 'Pediatric Infections Overview', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'RSV, Kawasaki, meningitis—recognize classic presentations' },
+        ]
+      },
+      {
+        id: 'pe3', title: 'Child Psychology', desc: 'Cognitive and emotional development',
+        cat: 'Psych/Soc', req: 3, masteryTotal: 4, xp: 175,
+        lessons: [
+          { id: 'pe3-l1', title: "Piaget's Stages of Cognitive Development", url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Sensorimotor→Preoperational→Concrete→Formal Operational' },
+          { id: 'pe3-l2', title: 'Attachment Theory', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Secure, avoidant, anxious-ambivalent, disorganized' },
+          { id: 'pe3-l3', title: "Erikson's Psychosocial Stages", url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Stage 1: Trust vs Mistrust (birth–18mo); conflicts proceed through life' },
+        ]
+      },
+      {
+        id: 'pe4', title: 'Nutrition & Metabolism', desc: 'Vitamins, lipids, nitrogen metabolism',
+        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 175,
+        lessons: [
+          { id: 'pe4-l1', title: 'Vitamins & Cofactors', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Fat-soluble: ADEK; Water-soluble: B vitamins, C. Deficiency diseases!' },
+          { id: 'pe4-l2', title: 'Lipid Metabolism & Lipoproteins', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Chylomicrons transport dietary fat; LDL delivers to cells; HDL returns to liver' },
+          { id: 'pe4-l3', title: 'Urea Cycle & Nitrogen Metabolism', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Liver detoxifies NH₃ → urea. OTC deficiency → hyperammonemia' },
+        ]
+      },
+      {
+        id: 'pe5', title: 'Research Methods & Statistics', desc: 'Study design and statistical analysis',
+        cat: 'Psych/Soc', req: 3, masteryTotal: 4, xp: 200,
+        lessons: [
+          { id: 'pe5-l1', title: 'Epidemiology & Study Design', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Gold standard: RCT. Cohort=prospective; Case-control=retrospective' },
+          { id: 'pe5-l2', title: 'Biostatistics for the MCAT', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Sensitivity=SnNout; Specificity=SpPin. PPV depends on prevalence!' },
+          { id: 'pe5-l3', title: 'Ethical Principles in Research', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Belmont Report: Respect, Beneficence, Justice. IRB oversees all research.' },
+        ]
+      },
     ]
   },
   psychiatry: {
     label: 'Psychiatry', icon: '🧠', accent: '#8b5cf6', border: 'border-violet-500/40',
     tagline: 'Master psychology, neuroscience & behavioral medicine',
     units: [
-      { id: 'ps1', title: 'Neuroscience Foundations', desc: 'Neurons, synapses, brain regions', cat: 'Bio/Biochem', req: 3, xp: 150,
-        lessons: [{ title: 'Neuron Structure & Action Potential', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Resting: -70mV. Depolarization via Na⁺ in; Repolarization via K⁺ out' }, { title: 'Synaptic Transmission & Neurotransmitters', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Dopamine: reward; Serotonin: mood; GABA: inhibitory; Glutamate: excitatory' }, { title: 'Brain Regions & Their Functions', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Limbic system: emotion/memory; PFC: executive function; BG: movement' }] },
-      { id: 'ps2', title: 'Psychology & Behavior', desc: 'Learning, cognition, psychopathology', cat: 'Psych/Soc', req: 3, xp: 175,
-        lessons: [{ title: 'Sensation, Perception & Consciousness', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Weber\'s Law: ΔI/I = k (JND is constant fraction of stimulus)' }, { title: 'Motivation, Emotion & Stress', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: "Maslow's hierarchy; James-Lange theory: body reaction PRECEDES emotion" }, { title: 'Psychological Disorders & DSM-5', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Axis: schizophrenia (positive/negative sx), mood disorders, anxiety clusters' }] },
-      { id: 'ps3', title: 'Social Science & Sociology', desc: 'Society, culture, inequality', cat: 'Psych/Soc', req: 3, xp: 175,
-        lessons: [{ title: 'Social Stratification & Health Inequity', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'SES gradient: poverty → worse health outcomes across all conditions' }, { title: 'Culture, Identity & Health Behavior', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '16 min', note: 'Cultural competency: recognize, respect, respond to cultural differences' }, { title: 'Social Networks & Group Dynamics', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Bystander effect, conformity (Asch), obedience (Milgram), groupthink' }] },
-      { id: 'ps4', title: 'Neuropharmacology', desc: 'Drugs, receptors, clinical psychiatry', cat: 'Bio/Biochem', req: 3, xp: 175,
-        lessons: [{ title: 'Antidepressants & Antipsychotics', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'SSRIs inhibit serotonin reuptake; Atypical antipsychotics: D2 + 5-HT2 block' }, { title: 'Anxiolytics & Mood Stabilizers', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Benzodiazepines potentiate GABA; Lithium: gold standard for bipolar' }, { title: 'Neuroplasticity & Memory', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'LTP: NMDA receptors → long-term potentiation. BDNF promotes neurogenesis' }] },
-      { id: 'ps5', title: 'Behavioral Research Methods', desc: 'Research design for psych studies', cat: 'Psych/Soc', req: 3, xp: 200,
-        lessons: [{ title: 'Psychological Research Methodology', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Experimental vs correlational vs naturalistic. Confounds destroy internal validity.' }, { title: 'Statistics for Psych/Soc', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Normal distribution: mean=median=mode. Skewed: mean pulled toward tail' }, { title: 'Ethics in Behavioral Research', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Tuskegee, Milgram, Zimbardo — landmark studies that shaped research ethics' }] },
+      {
+        id: 'ps1', title: 'Neuroscience Foundations', desc: 'Neurons, synapses, brain regions',
+        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 150,
+        lessons: [
+          { id: 'ps1-l1', title: 'Neuron Structure & Action Potential', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Resting: -70mV. Depolarization via Na⁺ in; Repolarization via K⁺ out' },
+          { id: 'ps1-l2', title: 'Synaptic Transmission & Neurotransmitters', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Dopamine: reward; Serotonin: mood; GABA: inhibitory; Glutamate: excitatory' },
+          { id: 'ps1-l3', title: 'Brain Regions & Their Functions', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Limbic system: emotion/memory; PFC: executive function; BG: movement' },
+        ]
+      },
+      {
+        id: 'ps2', title: 'Psychology & Behavior', desc: 'Learning, cognition, psychopathology',
+        cat: 'Psych/Soc', req: 3, masteryTotal: 4, xp: 175,
+        lessons: [
+          { id: 'ps2-l1', title: 'Sensation, Perception & Consciousness', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: "Weber's Law: ΔI/I = k (JND is constant fraction of stimulus)" },
+          { id: 'ps2-l2', title: 'Motivation, Emotion & Stress', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: "Maslow's hierarchy; James-Lange theory: body reaction PRECEDES emotion" },
+          { id: 'ps2-l3', title: 'Psychological Disorders & DSM-5', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Axis: schizophrenia (positive/negative sx), mood disorders, anxiety clusters' },
+        ]
+      },
+      {
+        id: 'ps3', title: 'Social Science & Sociology', desc: 'Society, culture, inequality',
+        cat: 'Psych/Soc', req: 3, masteryTotal: 4, xp: 175,
+        lessons: [
+          { id: 'ps3-l1', title: 'Social Stratification & Health Inequity', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'SES gradient: poverty → worse health outcomes across all conditions' },
+          { id: 'ps3-l2', title: 'Culture, Identity & Health Behavior', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '16 min', note: 'Cultural competency: recognize, respect, respond to cultural differences' },
+          { id: 'ps3-l3', title: 'Social Networks & Group Dynamics', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Bystander effect, conformity (Asch), obedience (Milgram), groupthink' },
+        ]
+      },
+      {
+        id: 'ps4', title: 'Neuropharmacology', desc: 'Drugs, receptors, clinical psychiatry',
+        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 175,
+        lessons: [
+          { id: 'ps4-l1', title: 'Antidepressants & Antipsychotics', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'SSRIs inhibit serotonin reuptake; Atypical antipsychotics: D2 + 5-HT2 block' },
+          { id: 'ps4-l2', title: 'Anxiolytics & Mood Stabilizers', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Benzodiazepines potentiate GABA; Lithium: gold standard for bipolar' },
+          { id: 'ps4-l3', title: 'Neuroplasticity & Memory', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'LTP: NMDA receptors → long-term potentiation. BDNF promotes neurogenesis' },
+        ]
+      },
+      {
+        id: 'ps5', title: 'Behavioral Research Methods', desc: 'Research design for psych studies',
+        cat: 'Psych/Soc', req: 3, masteryTotal: 4, xp: 200,
+        lessons: [
+          { id: 'ps5-l1', title: 'Psychological Research Methodology', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Experimental vs correlational vs naturalistic. Confounds destroy internal validity.' },
+          { id: 'ps5-l2', title: 'Statistics for Psych/Soc', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Normal distribution: mean=median=mode. Skewed: mean pulled toward tail' },
+          { id: 'ps5-l3', title: 'Ethics in Behavioral Research', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Tuskegee, Milgram, Zimbardo — landmark studies that shaped research ethics' },
+        ]
+      },
     ]
   },
   research: {
     label: 'Research & Academia', icon: '🔭', accent: '#f59e0b', border: 'border-amber-500/40',
     tagline: 'Excel in biomedical research & academic medicine',
     units: [
-      { id: 're1', title: 'Molecular Biology', desc: 'Gene expression, proteins, CRISPR', cat: 'Bio/Biochem', req: 3, xp: 150,
-        lessons: [{ title: 'Gene Expression & Epigenetic Regulation', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Methylation silences; acetylation activates. Epigenetics = heritable non-DNA changes' }, { title: 'Protein Folding, Chaperones & Proteomics', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Prion diseases: misfolded proteins; Hsp70 chaperones prevent aggregation' }, { title: 'CRISPR-Cas9 & Gene Editing', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Guide RNA directs Cas9; DSB repaired by HDR (precise) or NHEJ (error-prone)' }] },
-      { id: 're2', title: 'Epidemiology & Biostatistics', desc: 'Study design, bias, statistics', cat: 'Psych/Soc', req: 3, xp: 175,
-        lessons: [{ title: 'Epidemiology: Incidence, Prevalence, Risk', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Relative Risk from cohort; Odds Ratio from case-control. ARR = risk_control - risk_treatment' }, { title: 'Statistical Power, Error, and Significance', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Type I error = false positive (α); Type II = false negative (β). Power = 1-β' }, { title: 'Systematic Reviews & Meta-Analysis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Forest plots: diamond crossing 1.0 = not significant; funnel plot detects publication bias' }] },
-      { id: 're3', title: 'Physical Chemistry & Spectroscopy', desc: 'Lab techniques and physical chemistry', cat: 'Chem/Phys', req: 3, xp: 175,
-        lessons: [{ title: 'Spectroscopy (NMR, IR, Mass Spec)', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'IR: 1700 cm⁻¹ = carbonyl; NMR: n+1 rule for splitting; MS: M⁺ = molecular weight' }, { title: 'Chromatography & Electrophoresis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'SDS-PAGE separates by size; native PAGE by charge+size; isoelectric focusing by pI' }, { title: 'Thermodynamics & Reaction Kinetics', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Arrhenius: k = Ae^(-Ea/RT); catalyst lowers Ea, does NOT change ΔG' }] },
-      { id: 're4', title: 'Immunology & Virology', desc: 'Host-pathogen interactions in depth', cat: 'Bio/Biochem', req: 3, xp: 175,
-        lessons: [{ title: 'Adaptive Immunity: V(D)J Recombination', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Clonal selection: one B cell → one antibody specificity. Affinity maturation in GCs' }, { title: 'Microbial Pathogenesis & Virulence', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Exotoxins are secreted; endotoxins (LPS) are membrane-bound. Antitoxins = antitoxin antibodies' }, { title: 'Viral Replication & Antiviral Targets', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Retroviruses: RNA→DNA via reverse transcriptase. Lytic vs lysogenic cycle' }] },
-      { id: 're5', title: 'Organic Chemistry', desc: 'Reactions, mechanisms, stereochemistry', cat: 'Chem/Phys', req: 3, xp: 200,
-        lessons: [{ title: 'Nucleophilic Substitution (SN1 & SN2)', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'SN2: backside attack → inversion; SN1: carbocation → racemization' }, { title: 'Carbonyl Chemistry & Reactions', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Nucleophilic addition to C=O; aldehydes > ketones in reactivity' }, { title: 'Stereochemistry & Chirality', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'R/S via Cahn-Ingold-Prelog priority rules; optical activity measures chirality' }] },
+      {
+        id: 're1', title: 'Molecular Biology', desc: 'Gene expression, proteins, CRISPR',
+        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 150,
+        lessons: [
+          { id: 're1-l1', title: 'Gene Expression & Epigenetic Regulation', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Methylation silences; acetylation activates. Epigenetics = heritable non-DNA changes' },
+          { id: 're1-l2', title: 'Protein Folding, Chaperones & Proteomics', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Prion diseases: misfolded proteins; Hsp70 chaperones prevent aggregation' },
+          { id: 're1-l3', title: 'CRISPR-Cas9 & Gene Editing', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Guide RNA directs Cas9; DSB repaired by HDR (precise) or NHEJ (error-prone)' },
+        ]
+      },
+      {
+        id: 're2', title: 'Epidemiology & Biostatistics', desc: 'Study design, bias, statistics',
+        cat: 'Psych/Soc', req: 3, masteryTotal: 4, xp: 175,
+        lessons: [
+          { id: 're2-l1', title: 'Epidemiology: Incidence, Prevalence, Risk', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Relative Risk from cohort; Odds Ratio from case-control. ARR = risk_control - risk_treatment' },
+          { id: 're2-l2', title: 'Statistical Power, Error, and Significance', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Type I error = false positive (α); Type II = false negative (β). Power = 1-β' },
+          { id: 're2-l3', title: 'Systematic Reviews & Meta-Analysis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Forest plots: diamond crossing 1.0 = not significant; funnel plot detects publication bias' },
+        ]
+      },
+      {
+        id: 're3', title: 'Physical Chemistry & Spectroscopy', desc: 'Lab techniques and physical chemistry',
+        cat: 'Chem/Phys', req: 3, masteryTotal: 4, xp: 175,
+        lessons: [
+          { id: 're3-l1', title: 'Spectroscopy (NMR, IR, Mass Spec)', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'IR: 1700 cm⁻¹ = carbonyl; NMR: n+1 rule for splitting; MS: M⁺ = molecular weight' },
+          { id: 're3-l2', title: 'Chromatography & Electrophoresis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'SDS-PAGE separates by size; native PAGE by charge+size; isoelectric focusing by pI' },
+          { id: 're3-l3', title: 'Thermodynamics & Reaction Kinetics', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Arrhenius: k = Ae^(-Ea/RT); catalyst lowers Ea, does NOT change ΔG' },
+        ]
+      },
+      {
+        id: 're4', title: 'Immunology & Virology', desc: 'Host-pathogen interactions in depth',
+        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 175,
+        lessons: [
+          { id: 're4-l1', title: 'Adaptive Immunity: V(D)J Recombination', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Clonal selection: one B cell → one antibody specificity. Affinity maturation in GCs' },
+          { id: 're4-l2', title: 'Microbial Pathogenesis & Virulence', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Exotoxins are secreted; endotoxins (LPS) are membrane-bound. Antitoxins = antitoxin antibodies' },
+          { id: 're4-l3', title: 'Viral Replication & Antiviral Targets', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Retroviruses: RNA→DNA via reverse transcriptase. Lytic vs lysogenic cycle' },
+        ]
+      },
+      {
+        id: 're5', title: 'Organic Chemistry', desc: 'Reactions, mechanisms, stereochemistry',
+        cat: 'Chem/Phys', req: 3, masteryTotal: 4, xp: 200,
+        lessons: [
+          { id: 're5-l1', title: 'Nucleophilic Substitution (SN1 & SN2)', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'SN2: backside attack → inversion; SN1: carbocation → racemization' },
+          { id: 're5-l2', title: 'Carbonyl Chemistry & Reactions', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Nucleophilic addition to C=O; aldehydes > ketones in reactivity' },
+          { id: 're5-l3', title: 'Stereochemistry & Chirality', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'R/S via Cahn-Ingold-Prelog priority rules; optical activity measures chirality' },
+        ]
+      },
     ]
   },
 };
@@ -135,7 +311,7 @@ const PATHS = {
 const Q_TEMPLATES = [
   { cat: 'Chem/Phys', text: 'A fluid with viscosity η flows through a tube of radius $r$. The pressure gradient is tripled and the radius is halved. The new flow rate is:', choices: ['$\\frac{3}{16}$ of the original', '$\\frac{3}{8}$ of the original', '$\\frac{3}{4}$ of the original', '$6$ times the original'], ans: 0, exp: "Poiseuille's law: $Q = \\frac{\\pi r^4 \\Delta P}{8 \\eta L}$. New $Q = Q_0 \\cdot 3 \\cdot (\\frac{1}{2})^4 = \\frac{3}{16} Q_0$." },
   { cat: 'Bio/Biochem', text: 'A competitive inhibitor is added to an enzyme-substrate reaction. What happens to $K_m$ and $V_{max}$?', choices: ['$K_m$ increases; $V_{max}$ unchanged', '$V_{max}$ decreases; $K_m$ unchanged', 'Both $K_m$ and $V_{max}$ increase', 'Neither parameter changes'], ans: 0, exp: 'Competitive inhibitors compete with substrate for the active site. Excess substrate can overcome inhibition, so $V_{max}$ is preserved but apparent $K_m$ rises.' },
-  { cat: 'Bio/Biochem', text: 'Which molecule is the direct energy currency consumed during myosin's power stroke?', choices: ['ATP', 'NADH', 'Creatine phosphate', 'GTP'], ans: 0, exp: 'Myosin ATPase hydrolyzes ATP directly to produce the conformational change of the power stroke. Creatine phosphate regenerates ATP but is not directly used.' },
+  { cat: 'Bio/Biochem', text: 'Which molecule is the direct energy currency consumed during myosin\'s power stroke?', choices: ['ATP', 'NADH', 'Creatine phosphate', 'GTP'], ans: 0, exp: 'Myosin ATPase hydrolyzes ATP directly to produce the conformational change of the power stroke. Creatine phosphate regenerates ATP but is not directly used.' },
   { cat: 'Chem/Phys', text: 'Light travels from water ($n=1.33$) into denser glass ($n=1.50$) at an incident angle of 45°. The refracted angle is:', choices: ['Less than 45° (bends toward normal)', 'Greater than 45° (bends away from normal)', 'Exactly 45° (no refraction)', 'Greater than critical angle — total internal reflection'], ans: 0, exp: "Snell's law: $n_1 \\sin\\theta_1 = n_2 \\sin\\theta_2$. Since $n_2 > n_1$, $\\sin\\theta_2 < \\sin\\theta_1$, so the ray bends toward the normal." },
   { cat: 'Psych/Soc', text: 'Bystanders at an emergency scene see others not responding and therefore also refrain from helping. This phenomenon is best explained by:', choices: ['Diffusion of responsibility', 'Fundamental attribution error', 'In-group bias', 'Cognitive dissonance'], ans: 0, exp: 'The bystander effect: each individual feels less personally responsible when others are present, reducing likelihood of intervention (Darley & Latané, 1968).' },
   { cat: 'Bio/Biochem', text: 'In the presence of glucose and absence of lactose, the E. coli lac operon is:', choices: ['Repressed — lac repressor bound to operator', 'Active — CAP-cAMP complex activates transcription', 'Partially active due to allolactose', 'Fully transcribed due to high cAMP'], ans: 0, exp: 'Without lactose, allolactose is absent, so the lac repressor remains bound to the operator. The operon is transcriptionally repressed regardless of glucose status.' },
@@ -294,12 +470,12 @@ export default function App() {
   const [catPerf, setCatPerf] = useState(() => ls.get('msp_catperf', {}));
 
   // ── Sub-views ──
-  const [activeUnit, setActiveUnit] = useState(null); // { unit, mode: 'lesson'|'mastery' }
+  const [activeUnit, setActiveUnit] = useState(null);
   const [activeMasteryQs, setActiveMasteryQs] = useState(null);
   const [diagnosticStep, setDiagStep] = useState(0);
   const [diagAnswers, setDiagAnswers] = useState({});
   const [diagDone, setDiagDone] = useState(false);
-  const [quizResults, setQuizResults] = useState(null); // { score, total, passed }
+  const [quizResults, setQuizResults] = useState(null);
 
   // ── AI Coach ──
   const [msgs, setMsgs] = useState([{ role: 'assistant', content: "Hello! I'm MetaBrain, your dedicated MCAT coach. Ask me anything — from enzyme kinetics to MMI interview prep. What shall we tackle today?" }]);
@@ -327,7 +503,6 @@ export default function App() {
 
   // ── Wellness (Pomodoro) ──
   const [pomodoroActive, setPomodoroActive] = useState(false);
-  const [pomodoroEnd, setPomodoroEnd] = useState(null);
   const [pomodoroTimeLeft, setPomodoroTimeLeft] = useState(25 * 60);
   const [onBreak, setOnBreak] = useState(false);
   const pomodoroRef = useRef(null);
@@ -348,7 +523,7 @@ export default function App() {
           if (t <= 1) {
             clearInterval(pomodoroRef.current);
             setPomodoroActive(false);
-            setOnBreak(true);
+            setOnBreak(b => !b);
             return onBreak ? 25 * 60 : 5 * 60;
           }
           return t - 1;
@@ -366,7 +541,6 @@ export default function App() {
     const newAnswers = { ...diagAnswers, [qIdx]: optIdx };
     setDiagAnswers(newAnswers);
     if (qIdx + 1 >= DIAGNOSTIC_QS.length) {
-      // Tally scores
       const scores = { surgery: 0, internal: 0, pediatrics: 0, psychiatry: 0, research: 0 };
       Object.entries(newAnswers).forEach(([qi, oi]) => {
         const wq = DIAGNOSTIC_QS[parseInt(qi)];
@@ -375,7 +549,6 @@ export default function App() {
       const specialty = Object.entries(scores).sort(([, a], [, b]) => b - a)[0][0];
       const newUser = { ...user, specialty, xp: user.xp + 100 };
       setUser(newUser);
-      // Initialize pathway for this specialty
       const initPathway = {};
       PATHS[specialty].units.forEach((u, i) => {
         initPathway[u.id] = { unlocked: i === 0, lessonsComplete: [], masteryScore: null };
@@ -412,7 +585,13 @@ export default function App() {
       if (passed) {
         const units = currentPath.units;
         const idx = units.findIndex(u => u.id === unit.id);
-        if (idx + 1 < units.length) up[units[idx + 1].id] = { ...up[units[idx + 1].id], unlocked: true, lessonsComplete: up[units[idx + 1].id]?.lessonsComplete || [] };
+        if (idx + 1 < units.length) {
+          up[units[idx + 1].id] = {
+            ...up[units[idx + 1].id],
+            unlocked: true,
+            lessonsComplete: up[units[idx + 1].id]?.lessonsComplete || [],
+          };
+        }
       }
       return up;
     });
@@ -452,7 +631,7 @@ export default function App() {
       );
       setMsgs([...newMsgs, { role: 'assistant', content: reply }]);
     } catch {
-      setMsgs([...newMsgs, { role: 'assistant', content: '⚠️ Could not reach the AI. Please configure your /api/ai endpoint (see api/ai.js).' }]);
+      setMsgs([...newMsgs, { role: 'assistant', content: '⚠️ Could not reach the AI. Please make sure ANTHROPIC_API_KEY is set in your Vercel environment variables.' }]);
     }
     setChatLoading(false);
   }, [chatInput, chatLoading, msgs, user]);
@@ -488,7 +667,7 @@ export default function App() {
       );
       setInterviewFeedback(feedback);
     } catch {
-      setInterviewFeedback('⚠️ Could not get AI feedback. Please check your /api/ai endpoint.');
+      setInterviewFeedback('⚠️ Could not get AI feedback. Please check your Vercel ANTHROPIC_API_KEY environment variable.');
     }
     setInterviewLoading(false);
   };
@@ -582,7 +761,7 @@ export default function App() {
           <div className="bg-white/5 rounded-2xl p-3">
             <div className="flex items-center justify-between mb-2">
               <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">{onBreak ? '☕ Break' : '⏱ Focus'}</span>
-              <button onClick={() => { setPomodoroActive(a => !a); setPomodoroTimeLeft(onBreak ? 5 * 60 : 25 * 60); setOnBreak(false); }}
+              <button onClick={() => { setPomodoroActive(a => !a); if (!pomodoroActive) { setPomodoroTimeLeft(onBreak ? 5 * 60 : 25 * 60); } }}
                 className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/10 hover:bg-white/20">
                 {pomodoroActive ? 'Pause' : 'Start'}
               </button>
@@ -677,7 +856,7 @@ export default function App() {
               <p className="text-gray-400 mb-2">{PATHS[user.specialty].tagline}</p>
               <p className="text-sm text-gray-600 mb-8">You earned 100 XP for completing the diagnostic!</p>
               <button onClick={() => setTab('pathway')}
-                className="px-8 py-4 rounded-2xl font-black text-white text-lg transition"
+                className="px-8 py-4 rounded-2xl font-black text-white text-lg transition hover:opacity-80"
                 style={{ background: PATHS[user.specialty].accent }}>
                 Begin My Learning Path →
               </button>
@@ -708,6 +887,7 @@ export default function App() {
                       const state = pathway[unit.id] || { unlocked: idx === 0, lessonsComplete: [], masteryScore: null };
                       const lessonsDone = state.lessonsComplete?.length || 0;
                       const mastered = state.masteryScore !== null && state.masteryScore >= unit.req;
+                      const lessonPct = Math.round((lessonsDone / unit.lessons.length) * 100);
                       const masteryPct = state.masteryScore !== null ? Math.round((state.masteryScore / unit.masteryTotal) * 100) : 0;
                       return (
                         <div key={unit.id} className={`border rounded-[24px] overflow-hidden transition-all ${state.unlocked ? PATHS[user.specialty].border : 'border-white/5'} ${state.unlocked ? 'bg-white/5' : 'bg-white/2 opacity-50'}`}>
@@ -726,9 +906,12 @@ export default function App() {
                                 {state.masteryScore !== null && <span className="text-xs text-gray-600">Mastery: {state.masteryScore}/{unit.masteryTotal}</span>}
                                 <span className="text-xs font-bold" style={{ color: PATHS[user.specialty].accent }}>+{unit.xp} XP</span>
                               </div>
-                              {/* Lesson progress bar */}
+                              {/* Progress bar */}
                               <div className="h-1 bg-white/5 rounded-full mt-3 overflow-hidden">
-                                <div className="h-1 rounded-full transition-all" style={{ width: `${(lessonsDone / unit.lessons.length) * 100}%`, background: mastered ? '#10b981' : PATHS[user.specialty].accent }} />
+                                <div className="h-1 rounded-full transition-all" style={{
+                                  width: `${state.masteryScore !== null ? masteryPct : lessonPct}%`,
+                                  background: mastered ? '#10b981' : PATHS[user.specialty].accent
+                                }} />
                               </div>
                             </div>
                             {state.unlocked && (
@@ -807,7 +990,7 @@ export default function App() {
           {/* Quiz Result */}
           {tab === 'pathway' && quizResults && (
             <div className="text-center max-w-md mx-auto pt-12">
-              <div className={`text-6xl mb-6`}>{quizResults.passed ? '🎉' : '📚'}</div>
+              <div className="text-6xl mb-6">{quizResults.passed ? '🎉' : '📚'}</div>
               <h1 className="text-3xl font-black mb-3">{quizResults.passed ? 'Unit Mastered!' : 'Keep Practicing!'}</h1>
               <p className="text-5xl font-black mb-2">{quizResults.score}/{quizResults.total}</p>
               <p className="text-gray-500 mb-2">You needed {quizResults.unit.req}/{quizResults.unit.masteryTotal} to pass</p>
@@ -888,7 +1071,7 @@ export default function App() {
                 <div ref={msgsEndRef} />
               </div>
               <div className="mt-4">
-                <div className="flex gap-2 mb-3">
+                <div className="flex gap-2 mb-3 flex-wrap">
                   {['Explain the Nernst equation', 'How does the lac operon work?', 'MMI tips for ethics stations'].map(p => (
                     <button key={p} onClick={() => setChatInput(p)} className="text-[10px] bg-white/5 border border-white/10 px-3 py-1.5 rounded-full hover:bg-white/10 text-gray-400 hover:text-white transition">{p}</button>
                   ))}
@@ -918,7 +1101,7 @@ export default function App() {
                   <div className="flex justify-center mb-6" onClick={() => setCardFlipped(f => !f)}>
                     <div className="w-full max-w-lg h-56 cursor-pointer" style={{ perspective: '1000px' }}>
                       <div className="relative w-full h-full transition-transform duration-500" style={{ transformStyle: 'preserve-3d', transform: cardFlipped ? 'rotateY(180deg)' : 'none' }}>
-                        <div className="absolute inset-0 bg-white/5 border border-white/10 rounded-[28px] flex flex-col items-center justify-center p-8 text-center backface-hidden">
+                        <div className="absolute inset-0 bg-white/5 border border-white/10 rounded-[28px] flex flex-col items-center justify-center p-8 text-center" style={{ backfaceVisibility: 'hidden' }}>
                           <p className="text-xs text-gray-500 mb-4 uppercase tracking-widest">Front</p>
                           <p className="text-xl font-bold">{flashDecks[activeDeck][cardIdx]?.front}</p>
                         </div>
@@ -1175,6 +1358,7 @@ export default function App() {
                     {currentPath.units.map(unit => {
                       const state = pathway[unit.id] || { unlocked: false, lessonsComplete: [], masteryScore: null };
                       const lessonPct = Math.round(((state.lessonsComplete?.length || 0) / unit.lessons.length) * 100);
+                      const masteryPct = state.masteryScore !== null ? Math.round((state.masteryScore / unit.masteryTotal) * 100) : 0;
                       return (
                         <div key={unit.id}>
                           <div className="flex justify-between text-xs text-gray-400 mb-1">
@@ -1182,7 +1366,10 @@ export default function App() {
                             <span>{state.masteryScore !== null ? `Mastery: ${state.masteryScore}/${unit.masteryTotal}` : `${lessonPct}% lessons done`}</span>
                           </div>
                           <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                            <div className="h-2 rounded-full" style={{ width: `${state.masteryScore !== null ? Math.round((state.masteryScore / unit.masteryTotal) * 100) : lessonPct}%`, background: state.unlocked ? currentPath.accent : '#374151' }} />
+                            <div className="h-2 rounded-full" style={{
+                              width: `${state.masteryScore !== null ? masteryPct : lessonPct}%`,
+                              background: state.unlocked ? currentPath.accent : '#374151'
+                            }} />
                           </div>
                         </div>
                       );
