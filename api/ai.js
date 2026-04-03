@@ -1,57 +1,63 @@
-// api/ai.js — Vercel Serverless Function
-// Deploy this at the root of your project. Vercel will auto-route /api/ai.
-// Set ANTHROPIC_API_KEY in your Vercel environment variables.
+// api/ai.js — Vercel Node.js Serverless Function
+// Routes AI requests from the React app to the Anthropic API.
+// Required env var: ANTHROPIC_API_KEY (set in Vercel dashboard)
 
-export const config = { runtime: 'edge' };
+module.exports = async (req, res) => {
+  // CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-export default async function handler(req) {
-  if (req.method === 'OPTIONS') {
-    return new Response(null, {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      }
-    });
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  const { system, message, messages } = req.body || {};
+
+  if (!message && (!messages || !messages.length)) {
+    return res.status(400).json({ error: 'Missing required field: message or messages' });
   }
 
-  if (req.method !== 'POST') {
-    return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405 });
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    console.error('Missing ANTHROPIC_API_KEY environment variable');
+    return res.status(500).json({ error: 'AI service not configured' });
   }
+
+  // Build the messages array — supports both single-message and multi-turn
+  const builtMessages = messages
+    ? messages
+    : [{ role: 'user', content: message }];
+
+  const payload = {
+    model: 'claude-sonnet-4-20250514',
+    max_tokens: 1024,
+    system: system || 'You are MetaBrain, an elite MCAT coach for MedSchoolPrep. Be concise, high-yield, and clinically relevant. Use mnemonics where helpful.',
+    messages: builtMessages,
+  };
 
   try {
-    const { system, message } = await req.json();
-
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'x-api-key': apiKey,
         'anthropic-version': '2023-06-01',
       },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1024,
-        system: system || 'You are MetaBrain, an elite MCAT coach for MedSchoolPrep. Be concise, high-yield, and clinically relevant.',
-        messages: [{ role: 'user', content: message }],
-      }),
+      body: JSON.stringify(payload),
     });
 
     if (!response.ok) {
-      const err = await response.text();
-      return new Response(JSON.stringify({ error: err }), { status: response.status });
+      const errText = await response.text();
+      console.error('Anthropic API error:', errText);
+      return res.status(response.status).json({ error: 'Anthropic API error', details: errText });
     }
 
     const data = await response.json();
     const content = data.content?.[0]?.text || 'No response generated.';
 
-    return new Response(JSON.stringify({ content }), {
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
-    });
+    return res.status(200).json({ content });
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 500 });
+    console.error('AI proxy error:', err.message);
+    return res.status(500).json({ error: 'Internal server error', details: err.message });
   }
-}
+};
