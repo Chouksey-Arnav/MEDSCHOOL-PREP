@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": null,
+  "routes": [
+    { "src": "/api/ai",        "dest": "/api/ai.js" },
+    { "src": "/api/sendEmail", "dest": "/api/sendEmail.js" },
+    { "src": "/api/(.*)",      "dest": "/api/$1.js" },
+    {
+      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|map))",
+      "dest": "/$1"
+    },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin",  "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET,POST,OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type,Authorization" }
+      ]
+    }
+  ],
+  "env": {
+    "ANTHROPIC_API_KEY": "@anthropic_api_key"
+  }
+}
