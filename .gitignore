@@ -9,12 +9,12 @@ pnpm-debug.log*
 # Node Modules
 node_modules/
 
-# Production Build Output (Vercel builds this in the cloud, don't push it)
+# Production Build Output
 dist/
 dist-ssr/
 build/
 
-# Environment Variables (CRITICAL: Keeps your Anthropic API Key safe!)
+# Environment Variables — NEVER commit these
 .env
 .env.*
 !.env.example
@@ -22,7 +22,7 @@ build/
 # Vercel Local Cache
 .vercel/
 
-# Editor/OS directories and files
+# Editor / OS
 .vscode/*
 !.vscode/extensions.json
 .idea
