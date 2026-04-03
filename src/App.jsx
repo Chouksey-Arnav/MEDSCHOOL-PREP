@@ -44,266 +44,103 @@ const DIAGNOSTIC_QS = [
 ];
 
 /* ═══════════════════════════════════════════════════════════════════
-   SPECIALTY PATHS — FIXED: added masteryTotal:4 to every unit
-                             added id to every lesson
+   SPECIALTY PATHS (Khan Academy structure)
 ═══════════════════════════════════════════════════════════════════ */
 const PATHS = {
   surgery: {
     label: 'General Surgery', icon: '🔬', accent: '#ef4444', border: 'border-red-500/40',
     tagline: 'Master anatomy, physiology & surgical science',
     units: [
-      {
-        id: 'su1', title: 'Biochemistry Foundations', desc: 'Amino acids, enzymes, metabolism',
-        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 150,
-        lessons: [
-          { id: 'su1-l1', title: 'Amino Acid Structure & Properties', url: 'https://www.khanacademy.org/test-prep/mcat/biomolecules', dur: '18 min', note: 'Know pKa: Asp/Glu (acidic), Lys/Arg/His (basic)' },
-          { id: 'su1-l2', title: 'Enzyme Kinetics & Inhibition', url: 'https://www.khanacademy.org/test-prep/mcat/biomolecules', dur: '22 min', note: 'Lineweaver-Burk plot: competitive raises Km, non-competitive lowers Vmax' },
-          { id: 'su1-l3', title: 'Glycolysis & the TCA Cycle', url: 'https://www.khanacademy.org/test-prep/mcat/biomolecules', dur: '25 min', note: 'Net: 2 ATP from glycolysis; 32 ATP from oxidative phosphorylation' },
-        ]
-      },
-      {
-        id: 'su2', title: 'Cardiovascular & Respiratory', desc: 'Heart, lungs, hemodynamics',
-        cat: 'Chem/Phys', req: 3, masteryTotal: 4, xp: 175,
-        lessons: [
-          { id: 'su2-l1', title: 'Cardiac Cycle & Hemodynamics', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Starling curve: increased preload → increased stroke volume' },
-          { id: 'su2-l2', title: 'Respiratory Mechanics & Gas Exchange', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'V/Q mismatch: dead space (no perfusion) vs shunt (no ventilation)' },
-          { id: 'su2-l3', title: 'Acid-Base Disorders', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Use Henderson-Hasselbalch & the ROME mnemonic' },
-        ]
-      },
-      {
-        id: 'su3', title: 'Musculoskeletal System', desc: 'Bones, muscles, connective tissue',
-        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 175,
-        lessons: [
-          { id: 'su3-l1', title: 'Sliding Filament & Muscle Contraction', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Ca²⁺ releases troponin inhibition → myosin binds actin' },
-          { id: 'su3-l2', title: 'Bone Remodeling & Mineral Homeostasis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '17 min', note: 'PTH ↑ Ca²⁺ serum; calcitonin ↓ Ca²⁺ serum' },
-          { id: 'su3-l3', title: 'Collagen & Connective Tissue Disorders', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Type I=bone/tendon, Type II=cartilage, Type IV=basement membrane' },
-        ]
-      },
-      {
-        id: 'su4', title: 'Molecular Biology & Genetics', desc: 'DNA, RNA, gene regulation',
-        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 200,
-        lessons: [
-          { id: 'su4-l1', title: 'DNA Replication & Repair', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Leading strand continuous, lagging strand uses Okazaki fragments' },
-          { id: 'su4-l2', title: 'Transcription, Translation & Post-translational Modification', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'RNA Pol II transcribes mRNA; Signal sequences target proteins to ER' },
-          { id: 'su4-l3', title: 'Mendelian Genetics & Pedigree Analysis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Hardy-Weinberg: p² + 2pq + q² = 1; use for allele frequency problems' },
-        ]
-      },
-      {
-        id: 'su5', title: 'Physics & Fluid Dynamics', desc: 'Mechanics, fluids, thermodynamics',
-        cat: 'Chem/Phys', req: 3, masteryTotal: 4, xp: 200,
-        lessons: [
-          { id: 'su5-l1', title: "Poiseuille's Law & Fluid Mechanics", url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Q ∝ r⁴ — radius is the most critical variable in flow rate' },
-          { id: 'su5-l2', title: 'Circuits & Electricity', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Resistors in series add; in parallel: 1/R_total = Σ1/Rn' },
-          { id: 'su5-l3', title: 'Thermodynamics & Free Energy', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'ΔG = ΔH - TΔS; spontaneous when ΔG < 0' },
-        ]
-      },
+      { id: 'su1', title: 'Biochemistry Foundations', desc: 'Amino acids, enzymes, metabolism', cat: 'Bio/Biochem', req: 3, xp: 150,
+        lessons: [{ title: 'Amino Acid Structure & Properties', url: 'https://www.khanacademy.org/test-prep/mcat/biomolecules', dur: '18 min', note: 'Know pKa: Asp/Glu (acidic), Lys/Arg/His (basic)' }, { title: 'Enzyme Kinetics & Inhibition', url: 'https://www.khanacademy.org/test-prep/mcat/biomolecules', dur: '22 min', note: 'Lineweaver-Burk plot: competitive raises Km, non-competitive lowers Vmax' }, { title: 'Glycolysis & the TCA Cycle', url: 'https://www.khanacademy.org/test-prep/mcat/biomolecules', dur: '25 min', note: 'Net: 2 ATP from glycolysis; 32 ATP from oxidative phosphorylation' }] },
+      { id: 'su2', title: 'Cardiovascular & Respiratory', desc: 'Heart, lungs, hemodynamics', cat: 'Chem/Phys', req: 3, xp: 175,
+        lessons: [{ title: 'Cardiac Cycle & Hemodynamics', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Starling curve: increased preload → increased stroke volume' }, { title: 'Respiratory Mechanics & Gas Exchange', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'V/Q mismatch: dead space (no perfusion) vs shunt (no ventilation)' }, { title: 'Acid-Base Disorders', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Use Henderson-Hasselbalch & the ROME mnemonic' }] },
+      { id: 'su3', title: 'Musculoskeletal System', desc: 'Bones, muscles, connective tissue', cat: 'Bio/Biochem', req: 3, xp: 175,
+        lessons: [{ title: 'Sliding Filament & Muscle Contraction', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Ca²⁺ releases troponin inhibition → myosin binds actin' }, { title: 'Bone Remodeling & Mineral Homeostasis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '17 min', note: 'PTH ↑ Ca²⁺ serum; calcitonin ↓ Ca²⁺ serum' }, { title: 'Collagen & Connective Tissue Disorders', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Type I=bone/tendon, Type II=cartilage, Type IV=basement membrane' }] },
+      { id: 'su4', title: 'Molecular Biology & Genetics', desc: 'DNA, RNA, gene regulation', cat: 'Bio/Biochem', req: 3, xp: 200,
+        lessons: [{ title: 'DNA Replication & Repair', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Leading strand continuous, lagging strand uses Okazaki fragments' }, { title: 'Transcription, Translation & Post-translational Modification', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'RNA Pol II transcribes mRNA; Signal sequences target proteins to ER' }, { title: 'Mendelian Genetics & Pedigree Analysis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Hardy-Weinberg: p² + 2pq + q² = 1; use for allele frequency problems' }] },
+      { id: 'su5', title: 'Physics & Fluid Dynamics', desc: 'Mechanics, fluids, thermodynamics', cat: 'Chem/Phys', req: 3, xp: 200,
+        lessons: [{ title: "Poiseuille's Law & Fluid Mechanics", url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Q ∝ r⁴ — radius is the most critical variable in flow rate' }, { title: 'Circuits & Electricity', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Resistors in series add; in parallel: 1/R_total = Σ1/Rn' }, { title: 'Thermodynamics & Free Energy', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'ΔG = ΔH - TΔS; spontaneous when ΔG < 0' }] },
     ]
   },
   internal: {
     label: 'Internal Medicine', icon: '🩺', accent: '#3b82f6', border: 'border-blue-500/40',
     tagline: 'Master diagnostic reasoning & pharmacology',
     units: [
-      {
-        id: 'im1', title: 'Pathophysiology Foundations', desc: 'Disease at the cellular level',
-        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 150,
-        lessons: [
-          { id: 'im1-l1', title: 'Inflammation & Immune Response', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'COX-2 → prostaglandins → fever; NSAIDs block this pathway' },
-          { id: 'im1-l2', title: 'Necrosis vs Apoptosis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Apoptosis is programmed (caspase-mediated); necrosis is pathological' },
-          { id: 'im1-l3', title: 'Neoplasia & Cancer Biology', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Proto-oncogenes (gas pedal) vs tumor suppressors (brakes)' },
-        ]
-      },
-      {
-        id: 'im2', title: 'Pharmacology Principles', desc: 'Pharmacokinetics & pharmacodynamics',
-        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 175,
-        lessons: [
-          { id: 'im2-l1', title: 'Drug Absorption & Bioavailability', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'First-pass metabolism reduces oral bioavailability; IV = 100%' },
-          { id: 'im2-l2', title: 'Receptor Pharmacology', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'ED50: dose for 50% effect; therapeutic index = LD50/ED50' },
-          { id: 'im2-l3', title: 'Drug Metabolism & CYP450', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'CYP3A4 metabolizes ~50% of drugs; inducers ↑ clearance' },
-        ]
-      },
-      {
-        id: 'im3', title: 'Endocrinology', desc: 'Hormones and metabolic axes',
-        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 175,
-        lessons: [
-          { id: 'im3-l1', title: 'Hypothalamic-Pituitary Axis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Negative feedback: high cortisol → suppresses CRH and ACTH' },
-          { id: 'im3-l2', title: 'Thyroid & Adrenal Physiology', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'T3 is active form; T4 is a prohormone converted peripherally' },
-          { id: 'im3-l3', title: 'Diabetes Mellitus & Insulin Signaling', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Type 1: autoimmune β-cell destruction; Type 2: insulin resistance' },
-        ]
-      },
-      {
-        id: 'im4', title: 'Electrochemistry & Solutions', desc: 'Galvanic cells, acid-base, colligative',
-        cat: 'Chem/Phys', req: 3, masteryTotal: 4, xp: 175,
-        lessons: [
-          { id: 'im4-l1', title: 'Galvanic Cells & Nernst Equation', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'E = E° - (RT/nF)lnQ; cathode = reduction, anode = oxidation' },
-          { id: 'im4-l2', title: 'Acid-Base Equilibria & Buffers', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Best buffer: pKa ± 1 of target pH; bicarbonate buffer in blood' },
-          { id: 'im4-l3', title: 'Osmolarity & Colligative Properties', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Osmotic pressure π = iMRT; tonicity determines cell behavior' },
-        ]
-      },
-      {
-        id: 'im5', title: 'Behavioral Science & Sociology', desc: 'Biopsychosocial model',
-        cat: 'Psych/Soc', req: 3, masteryTotal: 4, xp: 200,
-        lessons: [
-          { id: 'im5-l1', title: 'Learning, Memory & Conditioning', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Operant: reinforcement/punishment; Classical: CS + US → CR' },
-          { id: 'im5-l2', title: 'Social Cognition & Attribution', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'FAE: over-attribute behavior to disposition vs situation' },
-          { id: 'im5-l3', title: 'Health Disparities & Social Determinants', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'SES, race, geography all influence morbidity/mortality outcomes' },
-        ]
-      },
+      { id: 'im1', title: 'Pathophysiology Foundations', desc: 'Disease at the cellular level', cat: 'Bio/Biochem', req: 3, xp: 150,
+        lessons: [{ title: 'Inflammation & Immune Response', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'COX-2 → prostaglandins → fever; NSAIDs block this pathway' }, { title: 'Necrosis vs Apoptosis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Apoptosis is programmed (caspase-mediated); necrosis is pathological' }, { title: 'Neoplasia & Cancer Biology', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Proto-oncogenes (gas pedal) vs tumor suppressors (brakes)' }] },
+      { id: 'im2', title: 'Pharmacology Principles', desc: 'Pharmacokinetics & pharmacodynamics', cat: 'Bio/Biochem', req: 3, xp: 175,
+        lessons: [{ title: 'Drug Absorption & Bioavailability', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'First-pass metabolism reduces oral bioavailability; IV = 100%' }, { title: 'Receptor Pharmacology', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'ED50: dose for 50% effect; therapeutic index = LD50/ED50' }, { title: 'Drug Metabolism & CYP450', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'CYP3A4 metabolizes ~50% of drugs; inducers ↑ clearance' }] },
+      { id: 'im3', title: 'Endocrinology', desc: 'Hormones and metabolic axes', cat: 'Bio/Biochem', req: 3, xp: 175,
+        lessons: [{ title: 'Hypothalamic-Pituitary Axis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Negative feedback: high cortisol → suppresses CRH and ACTH' }, { title: 'Thyroid & Adrenal Physiology', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'T3 is active form; T4 is a prohormone converted peripherally' }, { title: 'Diabetes Mellitus & Insulin Signaling', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Type 1: autoimmune β-cell destruction; Type 2: insulin resistance' }] },
+      { id: 'im4', title: 'Electrochemistry & Solutions', desc: 'Galvanic cells, acid-base, colligative', cat: 'Chem/Phys', req: 3, xp: 175,
+        lessons: [{ title: 'Galvanic Cells & Nernst Equation', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'E = E° - (RT/nF)lnQ; cathode = reduction, anode = oxidation' }, { title: 'Acid-Base Equilibria & Buffers', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Best buffer: pKa ± 1 of target pH; bicarbonate buffer in blood' }, { title: 'Osmolarity & Colligative Properties', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Osmotic pressure π = iMRT; tonicity determines cell behavior' }] },
+      { id: 'im5', title: 'Behavioral Science & Sociology', desc: 'Biopsychosocial model', cat: 'Psych/Soc', req: 3, xp: 200,
+        lessons: [{ title: 'Learning, Memory & Conditioning', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Operant: reinforcement/punishment; Classical: CS + US → CR' }, { title: 'Social Cognition & Attribution', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'FAE: over-attribute behavior to disposition vs situation' }, { title: 'Health Disparities & Social Determinants', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'SES, race, geography all influence morbidity/mortality outcomes' }] },
     ]
   },
   pediatrics: {
     label: 'Pediatrics', icon: '👶', accent: '#10b981', border: 'border-emerald-500/40',
     tagline: 'Specialize in child development & family medicine',
     units: [
-      {
-        id: 'pe1', title: 'Developmental Biology', desc: 'Embryology & developmental milestones',
-        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 150,
-        lessons: [
-          { id: 'pe1-l1', title: 'Embryonic Development & Organogenesis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Teratogens: thalidomide=limb defects, alcohol=FAS, rubella=CHD' },
-          { id: 'pe1-l2', title: 'Developmental Milestones by Age', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Gross motor → fine motor → language → social (in order of mastery)' },
-          { id: 'pe1-l3', title: 'Chromosomal & Genetic Disorders', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: "Down (Trisomy 21), Turner (45,X), Klinefelter (47,XXY)" },
-        ]
-      },
-      {
-        id: 'pe2', title: 'Immunology & Infectious Disease', desc: 'Immunity, vaccines, pediatric infections',
-        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 175,
-        lessons: [
-          { id: 'pe2-l1', title: 'Innate vs Adaptive Immunity', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'MHC I presents to CD8+ T cells; MHC II presents to CD4+ T cells' },
-          { id: 'pe2-l2', title: 'Vaccine Immunology', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Live-attenuated (MMR) vs inactivated (flu) vs mRNA (COVID) vaccines' },
-          { id: 'pe2-l3', title: 'Pediatric Infections Overview', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'RSV, Kawasaki, meningitis—recognize classic presentations' },
-        ]
-      },
-      {
-        id: 'pe3', title: 'Child Psychology', desc: 'Cognitive and emotional development',
-        cat: 'Psych/Soc', req: 3, masteryTotal: 4, xp: 175,
-        lessons: [
-          { id: 'pe3-l1', title: "Piaget's Stages of Cognitive Development", url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Sensorimotor→Preoperational→Concrete→Formal Operational' },
-          { id: 'pe3-l2', title: 'Attachment Theory', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Secure, avoidant, anxious-ambivalent, disorganized' },
-          { id: 'pe3-l3', title: "Erikson's Psychosocial Stages", url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Stage 1: Trust vs Mistrust (birth–18mo); conflicts proceed through life' },
-        ]
-      },
-      {
-        id: 'pe4', title: 'Nutrition & Metabolism', desc: 'Vitamins, lipids, nitrogen metabolism',
-        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 175,
-        lessons: [
-          { id: 'pe4-l1', title: 'Vitamins & Cofactors', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Fat-soluble: ADEK; Water-soluble: B vitamins, C. Deficiency diseases!' },
-          { id: 'pe4-l2', title: 'Lipid Metabolism & Lipoproteins', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Chylomicrons transport dietary fat; LDL delivers to cells; HDL returns to liver' },
-          { id: 'pe4-l3', title: 'Urea Cycle & Nitrogen Metabolism', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Liver detoxifies NH₃ → urea. OTC deficiency → hyperammonemia' },
-        ]
-      },
-      {
-        id: 'pe5', title: 'Research Methods & Statistics', desc: 'Study design and statistical analysis',
-        cat: 'Psych/Soc', req: 3, masteryTotal: 4, xp: 200,
-        lessons: [
-          { id: 'pe5-l1', title: 'Epidemiology & Study Design', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Gold standard: RCT. Cohort=prospective; Case-control=retrospective' },
-          { id: 'pe5-l2', title: 'Biostatistics for the MCAT', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Sensitivity=SnNout; Specificity=SpPin. PPV depends on prevalence!' },
-          { id: 'pe5-l3', title: 'Ethical Principles in Research', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Belmont Report: Respect, Beneficence, Justice. IRB oversees all research.' },
-        ]
-      },
+      { id: 'pe1', title: 'Developmental Biology', desc: 'Embryology & developmental milestones', cat: 'Bio/Biochem', req: 3, xp: 150,
+        lessons: [{ title: 'Embryonic Development & Organogenesis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Teratogens: thalidomide=limb defects, alcohol=FAS, rubella=CHD' }, { title: 'Developmental Milestones by Age', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Gross motor → fine motor → language → social (in order of mastery)' }, { title: 'Chromosomal & Genetic Disorders', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: "Down (Trisomy 21), Turner (45,X), Klinefelter (47,XXY)" }] },
+      { id: 'pe2', title: 'Immunology & Infectious Disease', desc: 'Immunity, vaccines, pediatric infections', cat: 'Bio/Biochem', req: 3, xp: 175,
+        lessons: [{ title: 'Innate vs Adaptive Immunity', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'MHC I presents to CD8+ T cells; MHC II presents to CD4+ T cells' }, { title: 'Vaccine Immunology', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Live-attenuated (MMR) vs inactivated (flu) vs mRNA (COVID) vaccines' }, { title: 'Pediatric Infections Overview', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'RSV, Kawasaki, meningitis—recognize classic presentations' }] },
+      { id: 'pe3', title: 'Child Psychology', desc: 'Cognitive and emotional development', cat: 'Psych/Soc', req: 3, xp: 175,
+        lessons: [{ title: "Piaget's Stages of Cognitive Development", url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Sensorimotor→Preoperational→Concrete→Formal Operational' }, { title: 'Attachment Theory', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Secure, avoidant, anxious-ambivalent, disorganized' }, { title: "Erikson's Psychosocial Stages", url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Stage 1: Trust vs Mistrust (birth–18mo); conflicts proceed through life' }] },
+      { id: 'pe4', title: 'Nutrition & Metabolism', desc: 'Vitamins, lipids, nitrogen metabolism', cat: 'Bio/Biochem', req: 3, xp: 175,
+        lessons: [{ title: 'Vitamins & Cofactors', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Fat-soluble: ADEK; Water-soluble: B vitamins, C. Deficiency diseases!' }, { title: 'Lipid Metabolism & Lipoproteins', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Chylomicrons transport dietary fat; LDL delivers to cells; HDL returns to liver' }, { title: 'Urea Cycle & Nitrogen Metabolism', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Liver detoxifies NH₃ → urea. OTC deficiency → hyperammonemia' }] },
+      { id: 'pe5', title: 'Research Methods & Statistics', desc: 'Study design and statistical analysis', cat: 'Psych/Soc', req: 3, xp: 200,
+        lessons: [{ title: 'Epidemiology & Study Design', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Gold standard: RCT. Cohort=prospective; Case-control=retrospective' }, { title: 'Biostatistics for the MCAT', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Sensitivity=SnNout; Specificity=SpPin. PPV depends on prevalence!' }, { title: 'Ethical Principles in Research', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Belmont Report: Respect, Beneficence, Justice. IRB oversees all research.' }] },
     ]
   },
   psychiatry: {
     label: 'Psychiatry', icon: '🧠', accent: '#8b5cf6', border: 'border-violet-500/40',
     tagline: 'Master psychology, neuroscience & behavioral medicine',
     units: [
-      {
-        id: 'ps1', title: 'Neuroscience Foundations', desc: 'Neurons, synapses, brain regions',
-        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 150,
-        lessons: [
-          { id: 'ps1-l1', title: 'Neuron Structure & Action Potential', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Resting: -70mV. Depolarization via Na⁺ in; Repolarization via K⁺ out' },
-          { id: 'ps1-l2', title: 'Synaptic Transmission & Neurotransmitters', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Dopamine: reward; Serotonin: mood; GABA: inhibitory; Glutamate: excitatory' },
-          { id: 'ps1-l3', title: 'Brain Regions & Their Functions', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Limbic system: emotion/memory; PFC: executive function; BG: movement' },
-        ]
-      },
-      {
-        id: 'ps2', title: 'Psychology & Behavior', desc: 'Learning, cognition, psychopathology',
-        cat: 'Psych/Soc', req: 3, masteryTotal: 4, xp: 175,
-        lessons: [
-          { id: 'ps2-l1', title: 'Sensation, Perception & Consciousness', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: "Weber's Law: ΔI/I = k (JND is constant fraction of stimulus)" },
-          { id: 'ps2-l2', title: 'Motivation, Emotion & Stress', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: "Maslow's hierarchy; James-Lange theory: body reaction PRECEDES emotion" },
-          { id: 'ps2-l3', title: 'Psychological Disorders & DSM-5', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Axis: schizophrenia (positive/negative sx), mood disorders, anxiety clusters' },
-        ]
-      },
-      {
-        id: 'ps3', title: 'Social Science & Sociology', desc: 'Society, culture, inequality',
-        cat: 'Psych/Soc', req: 3, masteryTotal: 4, xp: 175,
-        lessons: [
-          { id: 'ps3-l1', title: 'Social Stratification & Health Inequity', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'SES gradient: poverty → worse health outcomes across all conditions' },
-          { id: 'ps3-l2', title: 'Culture, Identity & Health Behavior', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '16 min', note: 'Cultural competency: recognize, respect, respond to cultural differences' },
-          { id: 'ps3-l3', title: 'Social Networks & Group Dynamics', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Bystander effect, conformity (Asch), obedience (Milgram), groupthink' },
-        ]
-      },
-      {
-        id: 'ps4', title: 'Neuropharmacology', desc: 'Drugs, receptors, clinical psychiatry',
-        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 175,
-        lessons: [
-          { id: 'ps4-l1', title: 'Antidepressants & Antipsychotics', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'SSRIs inhibit serotonin reuptake; Atypical antipsychotics: D2 + 5-HT2 block' },
-          { id: 'ps4-l2', title: 'Anxiolytics & Mood Stabilizers', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Benzodiazepines potentiate GABA; Lithium: gold standard for bipolar' },
-          { id: 'ps4-l3', title: 'Neuroplasticity & Memory', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'LTP: NMDA receptors → long-term potentiation. BDNF promotes neurogenesis' },
-        ]
-      },
-      {
-        id: 'ps5', title: 'Behavioral Research Methods', desc: 'Research design for psych studies',
-        cat: 'Psych/Soc', req: 3, masteryTotal: 4, xp: 200,
-        lessons: [
-          { id: 'ps5-l1', title: 'Psychological Research Methodology', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Experimental vs correlational vs naturalistic. Confounds destroy internal validity.' },
-          { id: 'ps5-l2', title: 'Statistics for Psych/Soc', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Normal distribution: mean=median=mode. Skewed: mean pulled toward tail' },
-          { id: 'ps5-l3', title: 'Ethics in Behavioral Research', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Tuskegee, Milgram, Zimbardo — landmark studies that shaped research ethics' },
-        ]
-      },
+      { id: 'ps1', title: 'Neuroscience Foundations', desc: 'Neurons, synapses, brain regions', cat: 'Bio/Biochem', req: 3, xp: 150,
+        lessons: [{ title: 'Neuron Structure & Action Potential', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Resting: -70mV. Depolarization via Na⁺ in; Repolarization via K⁺ out' }, { title: 'Synaptic Transmission & Neurotransmitters', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Dopamine: reward; Serotonin: mood; GABA: inhibitory; Glutamate: excitatory' }, { title: 'Brain Regions & Their Functions', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Limbic system: emotion/memory; PFC: executive function; BG: movement' }] },
+      { id: 'ps2', title: 'Psychology & Behavior', desc: 'Learning, cognition, psychopathology', cat: 'Psych/Soc', req: 3, xp: 175,
+        lessons: [{ title: 'Sensation, Perception & Consciousness', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Weber\'s Law: ΔI/I = k (JND is constant fraction of stimulus)' }, { title: 'Motivation, Emotion & Stress', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: "Maslow's hierarchy; James-Lange theory: body reaction PRECEDES emotion" }, { title: 'Psychological Disorders & DSM-5', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Axis: schizophrenia (positive/negative sx), mood disorders, anxiety clusters' }] },
+      { id: 'ps3', title: 'Social Science & Sociology', desc: 'Society, culture, inequality', cat: 'Psych/Soc', req: 3, xp: 175,
+        lessons: [{ title: 'Social Stratification & Health Inequity', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'SES gradient: poverty → worse health outcomes across all conditions' }, { title: 'Culture, Identity & Health Behavior', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '16 min', note: 'Cultural competency: recognize, respect, respond to cultural differences' }, { title: 'Social Networks & Group Dynamics', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Bystander effect, conformity (Asch), obedience (Milgram), groupthink' }] },
+      { id: 'ps4', title: 'Neuropharmacology', desc: 'Drugs, receptors, clinical psychiatry', cat: 'Bio/Biochem', req: 3, xp: 175,
+        lessons: [{ title: 'Antidepressants & Antipsychotics', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'SSRIs inhibit serotonin reuptake; Atypical antipsychotics: D2 + 5-HT2 block' }, { title: 'Anxiolytics & Mood Stabilizers', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Benzodiazepines potentiate GABA; Lithium: gold standard for bipolar' }, { title: 'Neuroplasticity & Memory', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'LTP: NMDA receptors → long-term potentiation. BDNF promotes neurogenesis' }] },
+      { id: 'ps5', title: 'Behavioral Research Methods', desc: 'Research design for psych studies', cat: 'Psych/Soc', req: 3, xp: 200,
+        lessons: [{ title: 'Psychological Research Methodology', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Experimental vs correlational vs naturalistic. Confounds destroy internal validity.' }, { title: 'Statistics for Psych/Soc', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Normal distribution: mean=median=mode. Skewed: mean pulled toward tail' }, { title: 'Ethics in Behavioral Research', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Tuskegee, Milgram, Zimbardo — landmark studies that shaped research ethics' }] },
     ]
   },
   research: {
     label: 'Research & Academia', icon: '🔭', accent: '#f59e0b', border: 'border-amber-500/40',
     tagline: 'Excel in biomedical research & academic medicine',
     units: [
-      {
-        id: 're1', title: 'Molecular Biology', desc: 'Gene expression, proteins, CRISPR',
-        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 150,
-        lessons: [
-          { id: 're1-l1', title: 'Gene Expression & Epigenetic Regulation', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Methylation silences; acetylation activates. Epigenetics = heritable non-DNA changes' },
-          { id: 're1-l2', title: 'Protein Folding, Chaperones & Proteomics', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Prion diseases: misfolded proteins; Hsp70 chaperones prevent aggregation' },
-          { id: 're1-l3', title: 'CRISPR-Cas9 & Gene Editing', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Guide RNA directs Cas9; DSB repaired by HDR (precise) or NHEJ (error-prone)' },
-        ]
-      },
-      {
-        id: 're2', title: 'Epidemiology & Biostatistics', desc: 'Study design, bias, statistics',
-        cat: 'Psych/Soc', req: 3, masteryTotal: 4, xp: 175,
-        lessons: [
-          { id: 're2-l1', title: 'Epidemiology: Incidence, Prevalence, Risk', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Relative Risk from cohort; Odds Ratio from case-control. ARR = risk_control - risk_treatment' },
-          { id: 're2-l2', title: 'Statistical Power, Error, and Significance', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Type I error = false positive (α); Type II = false negative (β). Power = 1-β' },
-          { id: 're2-l3', title: 'Systematic Reviews & Meta-Analysis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Forest plots: diamond crossing 1.0 = not significant; funnel plot detects publication bias' },
-        ]
-      },
-      {
-        id: 're3', title: 'Physical Chemistry & Spectroscopy', desc: 'Lab techniques and physical chemistry',
-        cat: 'Chem/Phys', req: 3, masteryTotal: 4, xp: 175,
-        lessons: [
-          { id: 're3-l1', title: 'Spectroscopy (NMR, IR, Mass Spec)', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'IR: 1700 cm⁻¹ = carbonyl; NMR: n+1 rule for splitting; MS: M⁺ = molecular weight' },
-          { id: 're3-l2', title: 'Chromatography & Electrophoresis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'SDS-PAGE separates by size; native PAGE by charge+size; isoelectric focusing by pI' },
-          { id: 're3-l3', title: 'Thermodynamics & Reaction Kinetics', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Arrhenius: k = Ae^(-Ea/RT); catalyst lowers Ea, does NOT change ΔG' },
-        ]
-      },
-      {
-        id: 're4', title: 'Immunology & Virology', desc: 'Host-pathogen interactions in depth',
-        cat: 'Bio/Biochem', req: 3, masteryTotal: 4, xp: 175,
-        lessons: [
-          { id: 're4-l1', title: 'Adaptive Immunity: V(D)J Recombination', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Clonal selection: one B cell → one antibody specificity. Affinity maturation in GCs' },
-          { id: 're4-l2', title: 'Microbial Pathogenesis & Virulence', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Exotoxins are secreted; endotoxins (LPS) are membrane-bound. Antitoxins = antitoxin antibodies' },
-          { id: 're4-l3', title: 'Viral Replication & Antiviral Targets', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Retroviruses: RNA→DNA via reverse transcriptase. Lytic vs lysogenic cycle' },
-        ]
-      },
-      {
-        id: 're5', title: 'Organic Chemistry', desc: 'Reactions, mechanisms, stereochemistry',
-        cat: 'Chem/Phys', req: 3, masteryTotal: 4, xp: 200,
-        lessons: [
-          { id: 're5-l1', title: 'Nucleophilic Substitution (SN1 & SN2)', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'SN2: backside attack → inversion; SN1: carbocation → racemization' },
-          { id: 're5-l2', title: 'Carbonyl Chemistry & Reactions', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Nucleophilic addition to C=O; aldehydes > ketones in reactivity' },
-          { id: 're5-l3', title: 'Stereochemistry & Chirality', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'R/S via Cahn-Ingold-Prelog priority rules; optical activity measures chirality' },
-        ]
-      },
+      { id: 're1', title: 'Molecular Biology', desc: 'Gene expression, proteins, CRISPR', cat: 'Bio/Biochem', req: 3, xp: 150,
+        lessons: [{ title: 'Gene Expression & Epigenetic Regulation', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Methylation silences; acetylation activates. Epigenetics = heritable non-DNA changes' }, { title: 'Protein Folding, Chaperones & Proteomics', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Prion diseases: misfolded proteins; Hsp70 chaperones prevent aggregation' }, { title: 'CRISPR-Cas9 & Gene Editing', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Guide RNA directs Cas9; DSB repaired by HDR (precise) or NHEJ (error-prone)' }] },
+      { id: 're2', title: 'Epidemiology & Biostatistics', desc: 'Study design, bias, statistics', cat: 'Psych/Soc', req: 3, xp: 175,
+        lessons: [{ title: 'Epidemiology: Incidence, Prevalence, Risk', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Relative Risk from cohort; Odds Ratio from case-control. ARR = risk_control - risk_treatment' }, { title: 'Statistical Power, Error, and Significance', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Type I error = false positive (α); Type II = false negative (β). Power = 1-β' }, { title: 'Systematic Reviews & Meta-Analysis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '15 min', note: 'Forest plots: diamond crossing 1.0 = not significant; funnel plot detects publication bias' }] },
+      { id: 're3', title: 'Physical Chemistry & Spectroscopy', desc: 'Lab techniques and physical chemistry', cat: 'Chem/Phys', req: 3, xp: 175,
+        lessons: [{ title: 'Spectroscopy (NMR, IR, Mass Spec)', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'IR: 1700 cm⁻¹ = carbonyl; NMR: n+1 rule for splitting; MS: M⁺ = molecular weight' }, { title: 'Chromatography & Electrophoresis', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'SDS-PAGE separates by size; native PAGE by charge+size; isoelectric focusing by pI' }, { title: 'Thermodynamics & Reaction Kinetics', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Arrhenius: k = Ae^(-Ea/RT); catalyst lowers Ea, does NOT change ΔG' }] },
+      { id: 're4', title: 'Immunology & Virology', desc: 'Host-pathogen interactions in depth', cat: 'Bio/Biochem', req: 3, xp: 175,
+        lessons: [{ title: 'Adaptive Immunity: V(D)J Recombination', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'Clonal selection: one B cell → one antibody specificity. Affinity maturation in GCs' }, { title: 'Microbial Pathogenesis & Virulence', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Exotoxins are secreted; endotoxins (LPS) are membrane-bound. Antitoxins = antitoxin antibodies' }, { title: 'Viral Replication & Antiviral Targets', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'Retroviruses: RNA→DNA via reverse transcriptase. Lytic vs lysogenic cycle' }] },
+      { id: 're5', title: 'Organic Chemistry', desc: 'Reactions, mechanisms, stereochemistry', cat: 'Chem/Phys', req: 3, xp: 200,
+        lessons: [{ title: 'Nucleophilic Substitution (SN1 & SN2)', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '22 min', note: 'SN2: backside attack → inversion; SN1: carbocation → racemization' }, { title: 'Carbonyl Chemistry & Reactions', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '20 min', note: 'Nucleophilic addition to C=O; aldehydes > ketones in reactivity' }, { title: 'Stereochemistry & Chirality', url: 'https://www.khanacademy.org/test-prep/mcat', dur: '18 min', note: 'R/S via Cahn-Ingold-Prelog priority rules; optical activity measures chirality' }] },
     ]
   },
 };
+
+/* ─── Post-process PATHS: inject masteryTotal and lesson IDs ───────
+   buildMasteryQuiz() always returns 4 questions, so masteryTotal = 4.
+   Lesson IDs are needed for the completeLesson() tracker.
+───────────────────────────────────────────────────────────────── */
+Object.values(PATHS).forEach(path =>
+  path.units.forEach(unit => {
+    unit.masteryTotal = 4;                            // always 4-question check
+    unit.lessons.forEach((lesson, i) => {
+      if (!lesson.id) lesson.id = `${unit.id}-l${i + 1}`;
+    });
+  })
+);
 
 /* ═══════════════════════════════════════════════════════════════════
    QUESTION BANK
@@ -311,7 +148,7 @@ const PATHS = {
 const Q_TEMPLATES = [
   { cat: 'Chem/Phys', text: 'A fluid with viscosity η flows through a tube of radius $r$. The pressure gradient is tripled and the radius is halved. The new flow rate is:', choices: ['$\\frac{3}{16}$ of the original', '$\\frac{3}{8}$ of the original', '$\\frac{3}{4}$ of the original', '$6$ times the original'], ans: 0, exp: "Poiseuille's law: $Q = \\frac{\\pi r^4 \\Delta P}{8 \\eta L}$. New $Q = Q_0 \\cdot 3 \\cdot (\\frac{1}{2})^4 = \\frac{3}{16} Q_0$." },
   { cat: 'Bio/Biochem', text: 'A competitive inhibitor is added to an enzyme-substrate reaction. What happens to $K_m$ and $V_{max}$?', choices: ['$K_m$ increases; $V_{max}$ unchanged', '$V_{max}$ decreases; $K_m$ unchanged', 'Both $K_m$ and $V_{max}$ increase', 'Neither parameter changes'], ans: 0, exp: 'Competitive inhibitors compete with substrate for the active site. Excess substrate can overcome inhibition, so $V_{max}$ is preserved but apparent $K_m$ rises.' },
-  { cat: 'Bio/Biochem', text: 'Which molecule is the direct energy currency consumed during myosin\'s power stroke?', choices: ['ATP', 'NADH', 'Creatine phosphate', 'GTP'], ans: 0, exp: 'Myosin ATPase hydrolyzes ATP directly to produce the conformational change of the power stroke. Creatine phosphate regenerates ATP but is not directly used.' },
+  { cat: 'Bio/Biochem', text: 'Which molecule is the direct energy currency consumed during myosin's power stroke?', choices: ['ATP', 'NADH', 'Creatine phosphate', 'GTP'], ans: 0, exp: 'Myosin ATPase hydrolyzes ATP directly to produce the conformational change of the power stroke. Creatine phosphate regenerates ATP but is not directly used.' },
   { cat: 'Chem/Phys', text: 'Light travels from water ($n=1.33$) into denser glass ($n=1.50$) at an incident angle of 45°. The refracted angle is:', choices: ['Less than 45° (bends toward normal)', 'Greater than 45° (bends away from normal)', 'Exactly 45° (no refraction)', 'Greater than critical angle — total internal reflection'], ans: 0, exp: "Snell's law: $n_1 \\sin\\theta_1 = n_2 \\sin\\theta_2$. Since $n_2 > n_1$, $\\sin\\theta_2 < \\sin\\theta_1$, so the ray bends toward the normal." },
   { cat: 'Psych/Soc', text: 'Bystanders at an emergency scene see others not responding and therefore also refrain from helping. This phenomenon is best explained by:', choices: ['Diffusion of responsibility', 'Fundamental attribution error', 'In-group bias', 'Cognitive dissonance'], ans: 0, exp: 'The bystander effect: each individual feels less personally responsible when others are present, reducing likelihood of intervention (Darley & Latané, 1968).' },
   { cat: 'Bio/Biochem', text: 'In the presence of glucose and absence of lactose, the E. coli lac operon is:', choices: ['Repressed — lac repressor bound to operator', 'Active — CAP-cAMP complex activates transcription', 'Partially active due to allolactose', 'Fully transcribed due to high cAMP'], ans: 0, exp: 'Without lactose, allolactose is absent, so the lac repressor remains bound to the operator. The operon is transcriptionally repressed regardless of glucose status.' },
@@ -463,19 +300,26 @@ const QuizEngine = memo(({ questions, onFinish, title }) => {
 export default function App() {
   // ── Global State ──
   const [tab, setTab] = useState('home');
-  const [user, setUser] = useState(() => ls.get('msp_user', { name: '', specialty: null, xp: 0, streak: 0, lastActive: null }));
+  const [user, setUser] = useState(() => {
+    const stored = ls.get('msp_user', { name: '', specialty: null, xp: 0, streak: 0, lastActive: null });
+    // Seed name from auth session on first load if msp_user.name is blank
+    if (!stored.name) {
+      try { const s = JSON.parse(localStorage.getItem('msp_session') || 'null'); if (s?.name) stored.name = s.name; } catch { /* ignore */ }
+    }
+    return stored;
+  });
   const [pathway, setPathway] = useState(() => ls.get('msp_pathway', {}));
   const [flashDecks, setFlashDecks] = useState(() => ls.get('msp_flash', {}));
   const [portfolio, setPortfolio] = useState(() => ls.get('msp_port', []));
   const [catPerf, setCatPerf] = useState(() => ls.get('msp_catperf', {}));
 
   // ── Sub-views ──
-  const [activeUnit, setActiveUnit] = useState(null);
+  const [activeUnit, setActiveUnit] = useState(null); // { unit, mode: 'lesson'|'mastery' }
   const [activeMasteryQs, setActiveMasteryQs] = useState(null);
   const [diagnosticStep, setDiagStep] = useState(0);
   const [diagAnswers, setDiagAnswers] = useState({});
   const [diagDone, setDiagDone] = useState(false);
-  const [quizResults, setQuizResults] = useState(null);
+  const [quizResults, setQuizResults] = useState(null); // { score, total, passed }
 
   // ── AI Coach ──
   const [msgs, setMsgs] = useState([{ role: 'assistant', content: "Hello! I'm MetaBrain, your dedicated MCAT coach. Ask me anything — from enzyme kinetics to MMI interview prep. What shall we tackle today?" }]);
@@ -503,6 +347,7 @@ export default function App() {
 
   // ── Wellness (Pomodoro) ──
   const [pomodoroActive, setPomodoroActive] = useState(false);
+  const [pomodoroEnd, setPomodoroEnd] = useState(null);
   const [pomodoroTimeLeft, setPomodoroTimeLeft] = useState(25 * 60);
   const [onBreak, setOnBreak] = useState(false);
   const pomodoroRef = useRef(null);
@@ -515,6 +360,19 @@ export default function App() {
   useEffect(() => { ls.set('msp_catperf', catPerf); }, [catPerf]);
   useEffect(() => { msgsEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [msgs]);
 
+  // ── Daily Streak Tracker ──
+  useEffect(() => {
+    const today = new Date().toDateString();
+    if (user.lastActive === today) return; // already credited today
+    const yesterday = new Date(Date.now() - 86400000).toDateString();
+    setUser(u => ({
+      ...u,
+      streak: u.lastActive === yesterday ? (u.streak || 0) + 1 : 1,
+      lastActive: today,
+    }));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // ── Pomodoro Timer ──
   useEffect(() => {
     if (pomodoroActive) {
@@ -523,7 +381,7 @@ export default function App() {
           if (t <= 1) {
             clearInterval(pomodoroRef.current);
             setPomodoroActive(false);
-            setOnBreak(b => !b);
+            setOnBreak(true);
             return onBreak ? 25 * 60 : 5 * 60;
           }
           return t - 1;
@@ -535,12 +393,19 @@ export default function App() {
 
   const fmtTime = (s) => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
 
+  // ── Sign Out ──
+  const signOut = useCallback(() => {
+    ['msp_session', 'msp_user', 'msp_pathway', 'msp_flash', 'msp_port', 'msp_catperf'].forEach(k => localStorage.removeItem(k));
+    window.location.replace('/');
+  }, []);
+
   // ── Diagnostic Logic ──
   const handleDiagAnswer = (qIdx, optIdx) => {
     const q = DIAGNOSTIC_QS[qIdx];
     const newAnswers = { ...diagAnswers, [qIdx]: optIdx };
     setDiagAnswers(newAnswers);
     if (qIdx + 1 >= DIAGNOSTIC_QS.length) {
+      // Tally scores
       const scores = { surgery: 0, internal: 0, pediatrics: 0, psychiatry: 0, research: 0 };
       Object.entries(newAnswers).forEach(([qi, oi]) => {
         const wq = DIAGNOSTIC_QS[parseInt(qi)];
@@ -549,6 +414,7 @@ export default function App() {
       const specialty = Object.entries(scores).sort(([, a], [, b]) => b - a)[0][0];
       const newUser = { ...user, specialty, xp: user.xp + 100 };
       setUser(newUser);
+      // Initialize pathway for this specialty
       const initPathway = {};
       PATHS[specialty].units.forEach((u, i) => {
         initPathway[u.id] = { unlocked: i === 0, lessonsComplete: [], masteryScore: null };
@@ -585,13 +451,7 @@ export default function App() {
       if (passed) {
         const units = currentPath.units;
         const idx = units.findIndex(u => u.id === unit.id);
-        if (idx + 1 < units.length) {
-          up[units[idx + 1].id] = {
-            ...up[units[idx + 1].id],
-            unlocked: true,
-            lessonsComplete: up[units[idx + 1].id]?.lessonsComplete || [],
-          };
-        }
+        if (idx + 1 < units.length) up[units[idx + 1].id] = { ...up[units[idx + 1].id], unlocked: true, lessonsComplete: up[units[idx + 1].id]?.lessonsComplete || [] };
       }
       return up;
     });
@@ -631,7 +491,7 @@ export default function App() {
       );
       setMsgs([...newMsgs, { role: 'assistant', content: reply }]);
     } catch {
-      setMsgs([...newMsgs, { role: 'assistant', content: '⚠️ Could not reach the AI. Please make sure ANTHROPIC_API_KEY is set in your Vercel environment variables.' }]);
+      setMsgs([...newMsgs, { role: 'assistant', content: '⚠️ Could not reach the AI. Please configure your /api/ai endpoint (see api/ai.js).' }]);
     }
     setChatLoading(false);
   }, [chatInput, chatLoading, msgs, user]);
@@ -667,7 +527,7 @@ export default function App() {
       );
       setInterviewFeedback(feedback);
     } catch {
-      setInterviewFeedback('⚠️ Could not get AI feedback. Please check your Vercel ANTHROPIC_API_KEY environment variable.');
+      setInterviewFeedback('⚠️ Could not get AI feedback. Please check your /api/ai endpoint.');
     }
     setInterviewLoading(false);
   };
@@ -690,17 +550,17 @@ export default function App() {
 
   // ── SIDEBAR NAV ──
   const NAV = [
-    { id: 'home', icon: '⌂', label: 'Home' },
-    { id: 'diagnostic', icon: '🧬', label: 'Pathway Diagnostic' },
-    { id: 'pathway', icon: '📈', label: 'Learning Pathway' },
-    { id: 'quiz', icon: '🧠', label: 'Quiz Library' },
-    { id: 'coach', icon: '💬', label: 'MetaBrain AI' },
-    { id: 'flashcards', icon: '🃏', label: 'AI Flashcards' },
-    { id: 'elibrary', icon: '📚', label: 'E-Library' },
-    { id: 'portfolio', icon: '🏆', label: 'Portfolio Builder' },
-    { id: 'interview', icon: '🎤', label: 'Interview Simulator' },
-    { id: 'admissions', icon: '🎓', label: 'Admissions Calc' },
-    { id: 'analytics', icon: '📊', label: 'Analytics' },
+    { id: 'home',        label: 'Home',                icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> },
+    { id: 'diagnostic',  label: 'Pathway Diagnostic',  icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44L5 9.97A6 6 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44L19 9.97A6 6 0 0 0 14.5 2Z"/></svg> },
+    { id: 'pathway',     label: 'Learning Pathway',    icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M3 3v18h18"/><path d="m7 16 4-4 4 4 5-5"/></svg> },
+    { id: 'quiz',        label: 'Quiz Library',         icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> },
+    { id: 'coach',       label: 'MetaBrain AI',         icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> },
+    { id: 'flashcards',  label: 'AI Flashcards',        icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M12 9v6M9 12h6"/></svg> },
+    { id: 'elibrary',   label: 'E-Library',             icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="12" y1="6" x2="12" y2="12"/><line x1="9" y1="9" x2="15" y2="9"/></svg> },
+    { id: 'portfolio',   label: 'Portfolio Builder',    icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> },
+    { id: 'interview',   label: 'Interview Simulator',  icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> },
+    { id: 'admissions',  label: 'Admissions Calc',      icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> },
+    { id: 'analytics',   label: 'Analytics',            icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg> },
   ];
 
   const accent = user.specialty ? PATHS[user.specialty].accent : '#3b82f6';
@@ -719,17 +579,33 @@ export default function App() {
     <div className="flex h-screen w-screen bg-[#030014] text-white overflow-hidden font-sans">
       {/* ── SIDEBAR ── */}
       <aside className="w-64 shrink-0 flex flex-col bg-black/50 border-r border-white/5 overflow-y-auto">
-        {/* Logo */}
-        <div className="p-6 border-b border-white/5">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-lg" style={{ background: accent }}>M</div>
-            <div>
-              <p className="font-black text-sm tracking-tight">MedSchoolPrep</p>
-              <p className="text-[10px] text-gray-500">Everything App for Premeds</p>
+        {/* Logo + User */}
+        <div className="p-5 border-b border-white/5">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl flex items-center justify-center font-black text-base shrink-0" style={{ background: accent }}>M</div>
+              <div>
+                <p className="font-black text-sm tracking-tight leading-none">MedSchoolPrep</p>
+                <p className="text-[10px] text-gray-500 mt-0.5">Everything App for Premeds</p>
+              </div>
             </div>
+            {/* Sign out */}
+            <button onClick={signOut} title="Sign out"
+              className="w-7 h-7 rounded-lg bg-white/5 hover:bg-red-500/20 border border-white/8 hover:border-red-500/30 flex items-center justify-content-center transition-all group shrink-0"
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" className="text-gray-500 group-hover:text-red-400 transition-colors">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+              </svg>
+            </button>
           </div>
+          {/* User greeting */}
+          {user.name && (
+            <p className="text-[11px] text-gray-500 mb-3 truncate">
+              👋 Hey, <span className="text-gray-300 font-semibold">{user.name.split(' ')[0]}</span>
+            </p>
+          )}
           {/* XP Bar */}
-          <div className="mt-4">
+          <div>
             <div className="flex justify-between text-[10px] text-gray-500 mb-1">
               <span>Level {xpLevel}</span>
               <span>{totalXP % 500} / 500 XP</span>
@@ -751,7 +627,7 @@ export default function App() {
           {NAV.map(item => (
             <button key={item.id} onClick={() => { setTab(item.id); setActiveUnit(null); setQuizResults(null); }}
               className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm transition-all ${tab === item.id ? 'bg-white/10 text-white font-semibold border border-white/10' : 'text-gray-500 hover:text-gray-200 hover:bg-white/5'}`}>
-              <span className="text-base">{item.icon}</span>
+              <span className="shrink-0">{item.icon}</span>
               <span>{item.label}</span>
             </button>
           ))}
@@ -760,14 +636,14 @@ export default function App() {
         <div className="p-4 border-t border-white/5">
           <div className="bg-white/5 rounded-2xl p-3">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">{onBreak ? '☕ Break' : '⏱ Focus'}</span>
-              <button onClick={() => { setPomodoroActive(a => !a); if (!pomodoroActive) { setPomodoroTimeLeft(onBreak ? 5 * 60 : 25 * 60); } }}
+              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">{onBreak ? 'Break' : 'Focus'}</span>
+              <button onClick={() => { setPomodoroActive(a => !a); setPomodoroTimeLeft(onBreak ? 5 * 60 : 25 * 60); setOnBreak(false); }}
                 className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/10 hover:bg-white/20">
                 {pomodoroActive ? 'Pause' : 'Start'}
               </button>
             </div>
             <p className="text-2xl font-black text-center tracking-widest" style={{ color: accent }}>{fmtTime(pomodoroTimeLeft)}</p>
-            {onBreak && <p className="text-[10px] text-center text-emerald-400 mt-1">Great work! Take a break 🌿</p>}
+            {onBreak && <p className="text-[10px] text-center text-emerald-400 mt-1">Great work! Take a break.</p>}
           </div>
         </div>
       </aside>
@@ -783,19 +659,25 @@ export default function App() {
           {tab === 'home' && (
             <div>
               <div className="mb-8">
-                <h1 className="text-4xl font-black mb-1">Good day, Future Doctor 👋</h1>
-                <p className="text-gray-500">{user.specialty ? `You're on the ${PATHS[user.specialty].label} path.` : 'Start with the Pathway Diagnostic to get your personalized learning plan.'}</p>
+                <h1 className="text-4xl font-black mb-1">
+                  Hello, {user.name ? user.name.split(' ')[0] : 'Future Doctor'}
+                </h1>
+                <p className="text-gray-500">{user.specialty ? `You're on the ${PATHS[user.specialty].label} path. Keep going!` : 'Start with the Pathway Diagnostic to get your personalized learning plan.'}</p>
               </div>
               {/* Stats Row */}
               <div className="grid grid-cols-4 gap-4 mb-8">
                 {[
-                  { label: 'Total XP', val: totalXP.toLocaleString(), icon: '⚡', color: '#f59e0b' },
-                  { label: 'Level', val: xpLevel, icon: '🏅', color: '#3b82f6' },
-                  { label: 'Units Mastered', val: Object.values(pathway).filter(u => u.masteryScore !== null && u.masteryScore >= 3).length, icon: '🎯', color: '#10b981' },
-                  { label: 'Lessons Done', val: Object.values(pathway).reduce((acc, u) => acc + (u.lessonsComplete?.length || 0), 0), icon: '📖', color: '#8b5cf6' },
+                  { label: 'Total XP', val: totalXP.toLocaleString(), color: '#f59e0b',
+                    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> },
+                  { label: 'Level', val: xpLevel, color: '#3b82f6',
+                    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg> },
+                  { label: 'Day Streak', val: `${user.streak || 1}🔥`, color: '#ef4444',
+                    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> },
+                  { label: 'Units Mastered', val: Object.values(pathway).filter(u => u.masteryScore !== null && u.masteryScore >= 3).length, color: '#10b981',
+                    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> },
                 ].map(s => (
                   <div key={s.label} className="bg-white/5 border border-white/10 rounded-2xl p-5">
-                    <div className="text-2xl mb-2">{s.icon}</div>
+                    <div className="mb-3" style={{ color: s.color }}>{s.icon}</div>
                     <p className="text-3xl font-black" style={{ color: s.color }}>{s.val}</p>
                     <p className="text-xs text-gray-500 mt-1">{s.label}</p>
                   </div>
@@ -804,22 +686,22 @@ export default function App() {
               {/* Quick Actions */}
               <div className="grid grid-cols-2 gap-4 mb-8">
                 <button onClick={() => setTab(user.specialty ? 'pathway' : 'diagnostic')} className="p-6 bg-white/5 border border-white/10 rounded-2xl text-left hover:border-blue-500/40 hover:bg-blue-500/5 transition group">
-                  <p className="text-2xl mb-3">📈</p>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2" strokeLinecap="round" className="mb-3"><path d="M3 3v18h18"/><path d="m7 16 4-4 4 4 5-5"/></svg>
                   <h3 className="font-bold mb-1">{user.specialty ? 'Continue Learning Path' : 'Take the Pathway Diagnostic'}</h3>
                   <p className="text-sm text-gray-500">{user.specialty ? `${PATHS[user.specialty].label} – resume where you left off` : 'Discover your ideal specialty path in 10 questions'}</p>
                 </button>
                 <button onClick={() => setTab('coach')} className="p-6 bg-white/5 border border-white/10 rounded-2xl text-left hover:border-violet-500/40 hover:bg-violet-500/5 transition">
-                  <p className="text-2xl mb-3">💬</p>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" strokeWidth="2" strokeLinecap="round" className="mb-3"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                   <h3 className="font-bold mb-1">Ask MetaBrain</h3>
                   <p className="text-sm text-gray-500">Get personalized AI tutoring on any MCAT concept</p>
                 </button>
                 <button onClick={() => setTab('interview')} className="p-6 bg-white/5 border border-white/10 rounded-2xl text-left hover:border-emerald-500/40 hover:bg-emerald-500/5 transition">
-                  <p className="text-2xl mb-3">🎤</p>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" className="mb-3"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
                   <h3 className="font-bold mb-1">MMI Interview Practice</h3>
                   <p className="text-sm text-gray-500">AI-powered feedback on your med school interview answers</p>
                 </button>
                 <button onClick={() => setTab('admissions')} className="p-6 bg-white/5 border border-white/10 rounded-2xl text-left hover:border-amber-500/40 hover:bg-amber-500/5 transition">
-                  <p className="text-2xl mb-3">🎓</p>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" className="mb-3"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
                   <h3 className="font-bold mb-1">Admissions Calculator</h3>
                   <p className="text-sm text-gray-500">See your odds at top medical schools based on your GPA & MCAT</p>
                 </button>
@@ -830,7 +712,7 @@ export default function App() {
           {/* ════════════ DIAGNOSTIC ════════════ */}
           {tab === 'diagnostic' && !diagDone && (
             <div>
-              <h1 className="text-3xl font-black mb-2">Pathway Diagnostic 🧬</h1>
+              <h1 className="text-3xl font-black mb-2">Pathway Diagnostic</h1>
               <p className="text-gray-500 mb-8">Answer {DIAGNOSTIC_QS.length} questions to discover your ideal specialty path.</p>
               <div className="w-full bg-white/5 rounded-full h-1.5 mb-8">
                 <div className="h-1.5 rounded-full bg-blue-500 transition-all" style={{ width: `${(diagnosticStep / DIAGNOSTIC_QS.length) * 100}%` }} />
@@ -851,12 +733,14 @@ export default function App() {
           )}
           {tab === 'diagnostic' && diagDone && user.specialty && (
             <div className="text-center max-w-lg mx-auto pt-12">
-              <p className="text-6xl mb-6">{PATHS[user.specialty].icon}</p>
+              <div className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6" style={{ background: `${PATHS[user.specialty].accent}20`, border: `1px solid ${PATHS[user.specialty].accent}40` }}>
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke={PATHS[user.specialty].accent} strokeWidth="1.75" strokeLinecap="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44L5 9.97A6 6 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44L19 9.97A6 6 0 0 0 14.5 2Z"/></svg>
+              </div>
               <h1 className="text-3xl font-black mb-3">Your Path: {PATHS[user.specialty].label}</h1>
               <p className="text-gray-400 mb-2">{PATHS[user.specialty].tagline}</p>
               <p className="text-sm text-gray-600 mb-8">You earned 100 XP for completing the diagnostic!</p>
               <button onClick={() => setTab('pathway')}
-                className="px-8 py-4 rounded-2xl font-black text-white text-lg transition hover:opacity-80"
+                className="px-8 py-4 rounded-2xl font-black text-white text-lg transition"
                 style={{ background: PATHS[user.specialty].accent }}>
                 Begin My Learning Path →
               </button>
@@ -868,7 +752,9 @@ export default function App() {
             <div>
               {!user.specialty ? (
                 <div className="text-center py-20">
-                  <p className="text-5xl mb-4">🧬</p>
+                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 bg-blue-500/10 border border-blue-500/20">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="1.75" strokeLinecap="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44L5 9.97A6 6 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44L19 9.97A6 6 0 0 0 14.5 2Z"/></svg>
+                  </div>
                   <h2 className="text-2xl font-bold mb-3">No Pathway Assigned Yet</h2>
                   <p className="text-gray-500 mb-6">Complete the diagnostic to get your personalized learning path.</p>
                   <button onClick={() => setTab('diagnostic')} className="px-6 py-3 bg-blue-600 rounded-xl font-bold hover:bg-blue-500 transition">Take the Diagnostic →</button>
@@ -887,13 +773,17 @@ export default function App() {
                       const state = pathway[unit.id] || { unlocked: idx === 0, lessonsComplete: [], masteryScore: null };
                       const lessonsDone = state.lessonsComplete?.length || 0;
                       const mastered = state.masteryScore !== null && state.masteryScore >= unit.req;
-                      const lessonPct = Math.round((lessonsDone / unit.lessons.length) * 100);
                       const masteryPct = state.masteryScore !== null ? Math.round((state.masteryScore / unit.masteryTotal) * 100) : 0;
                       return (
                         <div key={unit.id} className={`border rounded-[24px] overflow-hidden transition-all ${state.unlocked ? PATHS[user.specialty].border : 'border-white/5'} ${state.unlocked ? 'bg-white/5' : 'bg-white/2 opacity-50'}`}>
                           <div className="p-6 flex items-center gap-4">
-                            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shrink-0 font-black border ${mastered ? 'border-emerald-500/50 bg-emerald-500/20' : state.unlocked ? PATHS[user.specialty].border : 'border-white/10 bg-white/5'}`}>
-                              {mastered ? '✅' : state.unlocked ? idx + 1 : '🔒'}
+                            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 font-black border ${mastered ? 'border-emerald-500/50 bg-emerald-500/20' : state.unlocked ? PATHS[user.specialty].border : 'border-white/10 bg-white/5'}`}>
+                              {mastered
+                                ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                : state.unlocked
+                                  ? <span className="text-base font-black">{idx + 1}</span>
+                                  : <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-gray-600"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                              }
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2 mb-0.5">
@@ -903,15 +793,12 @@ export default function App() {
                               <p className="text-sm text-gray-500">{unit.desc}</p>
                               <div className="flex items-center gap-4 mt-2">
                                 <span className="text-xs text-gray-600">{lessonsDone}/{unit.lessons.length} lessons</span>
-                                {state.masteryScore !== null && <span className="text-xs text-gray-600">Mastery: {state.masteryScore}/{unit.masteryTotal}</span>}
+                                {state.masteryScore !== null && <span className="text-xs text-gray-600">Mastery: {state.masteryScore}/4</span>}
                                 <span className="text-xs font-bold" style={{ color: PATHS[user.specialty].accent }}>+{unit.xp} XP</span>
                               </div>
-                              {/* Progress bar */}
+                              {/* Lesson progress bar */}
                               <div className="h-1 bg-white/5 rounded-full mt-3 overflow-hidden">
-                                <div className="h-1 rounded-full transition-all" style={{
-                                  width: `${state.masteryScore !== null ? masteryPct : lessonPct}%`,
-                                  background: mastered ? '#10b981' : PATHS[user.specialty].accent
-                                }} />
+                                <div className="h-1 rounded-full transition-all" style={{ width: `${(lessonsDone / unit.lessons.length) * 100}%`, background: mastered ? '#10b981' : PATHS[user.specialty].accent }} />
                               </div>
                             </div>
                             {state.unlocked && (
@@ -939,28 +826,35 @@ export default function App() {
               <p className="text-gray-500 mb-8">Complete all lessons, then take the Mastery Check to unlock the next unit.</p>
               <div className="space-y-4 mb-8">
                 {activeUnit.unit.lessons.map((lesson, i) => {
-                  const done = (pathway[activeUnit.unit.id]?.lessonsComplete || []).includes(lesson.id);
+                  const lessonKey = `${activeUnit.unit.id}-l${i + 1}`;
+                  const done = (pathway[activeUnit.unit.id]?.lessonsComplete || []).includes(lessonKey);
                   return (
-                    <div key={lesson.id} className="bg-white/5 border border-white/10 rounded-2xl p-5">
+                    <div key={lessonKey} className="bg-white/5 border border-white/10 rounded-2xl p-5">
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
-                            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${done ? 'bg-emerald-500 text-white' : 'bg-white/10 text-gray-400'}`}>{done ? '✓' : i + 1}</span>
+                            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-all ${done ? 'bg-emerald-500 text-white' : 'bg-white/10 text-gray-400'}`}>{done ? '✓' : i + 1}</span>
                             <h3 className="font-bold">{lesson.title}</h3>
-                            <span className="text-xs text-gray-600">{lesson.dur}</span>
+                            <span className="text-xs text-gray-600 ml-1">{lesson.dur}</span>
                           </div>
-                          <p className="text-sm text-gray-500 ml-8">💡 {lesson.note}</p>
+                          <p className="text-sm text-gray-500 ml-8 mt-1">
+                            <span className="text-yellow-500/70 mr-1">💡</span>{lesson.note}
+                          </p>
                         </div>
-                        <div className="flex gap-2 shrink-0">
+                        <div className="flex gap-2 shrink-0 mt-0.5">
                           <a href={lesson.url} target="_blank" rel="noreferrer"
                             className="px-4 py-2 bg-white/10 rounded-xl text-xs font-bold hover:bg-white/20 transition">
                             Watch ↗
                           </a>
-                          {!done && (
-                            <button onClick={() => completeLesson(activeUnit.unit.id, lesson.id)}
+                          {!done ? (
+                            <button onClick={() => completeLesson(activeUnit.unit.id, lessonKey)}
                               className="px-4 py-2 bg-emerald-600 rounded-xl text-xs font-bold hover:bg-emerald-500 transition">
                               Mark Done
                             </button>
+                          ) : (
+                            <span className="px-4 py-2 rounded-xl text-xs font-bold text-emerald-400 bg-emerald-400/10 border border-emerald-400/20">
+                              Complete ✓
+                            </span>
                           )}
                         </div>
                       </div>
@@ -970,8 +864,8 @@ export default function App() {
               </div>
               <div className="bg-gradient-to-r from-white/10 to-transparent border border-white/10 rounded-2xl p-6 flex items-center justify-between">
                 <div>
-                  <h3 className="font-black text-lg mb-1">🎯 Mastery Check</h3>
-                  <p className="text-sm text-gray-400">Score {activeUnit.unit.req}/{activeUnit.unit.masteryTotal} to master this unit and unlock the next one.</p>
+                  <h3 className="font-black text-lg mb-1">Mastery Check</h3>
+                  <p className="text-sm text-gray-400">Score {activeUnit.unit.req}/4 to master this unit and unlock the next one.</p>
                 </div>
                 <button onClick={() => startMasteryCheck(activeUnit.unit)}
                   className="px-6 py-3 rounded-xl font-black text-white transition hover:opacity-80"
@@ -990,10 +884,15 @@ export default function App() {
           {/* Quiz Result */}
           {tab === 'pathway' && quizResults && (
             <div className="text-center max-w-md mx-auto pt-12">
-              <div className="text-6xl mb-6">{quizResults.passed ? '🎉' : '📚'}</div>
+              <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6 ${quizResults.passed ? 'bg-emerald-500/15 border border-emerald-500/30' : 'bg-blue-500/10 border border-blue-500/20'}`}>
+                {quizResults.passed
+                  ? <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  : <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2" strokeLinecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                }
+              </div>
               <h1 className="text-3xl font-black mb-3">{quizResults.passed ? 'Unit Mastered!' : 'Keep Practicing!'}</h1>
               <p className="text-5xl font-black mb-2">{quizResults.score}/{quizResults.total}</p>
-              <p className="text-gray-500 mb-2">You needed {quizResults.unit.req}/{quizResults.unit.masteryTotal} to pass</p>
+              <p className="text-gray-500 mb-2">You needed {quizResults.unit.req}/4 to pass</p>
               <p className={`text-sm font-bold mb-8 ${quizResults.passed ? 'text-emerald-400' : 'text-yellow-400'}`}>
                 {quizResults.passed ? `+${quizResults.unit.xp} XP earned! Next unit unlocked.` : `+${Math.floor(quizResults.unit.xp * 0.3)} XP — review the lessons and try again.`}
               </p>
@@ -1013,7 +912,7 @@ export default function App() {
                 </div>
               ) : (
                 <div>
-                  <h1 className="text-3xl font-black mb-2">Quiz Library 🧠</h1>
+                  <h1 className="text-3xl font-black mb-2">Quiz Library</h1>
                   <p className="text-gray-500 mb-6">Practice MCAT questions across all tested categories.</p>
                   <div className="flex gap-2 mb-6">
                     {libCats.map(c => (
@@ -1050,7 +949,7 @@ export default function App() {
           {/* ════════════ AI COACH ════════════ */}
           {tab === 'coach' && (
             <div className="flex flex-col h-[calc(100vh-8rem)]">
-              <h1 className="text-3xl font-black mb-6">MetaBrain AI Coach 💬</h1>
+              <h1 className="text-3xl font-black mb-6">MetaBrain AI Coach</h1>
               <div className="flex-1 overflow-y-auto space-y-4 pb-4">
                 {msgs.map((m, i) => (
                   <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -1071,7 +970,7 @@ export default function App() {
                 <div ref={msgsEndRef} />
               </div>
               <div className="mt-4">
-                <div className="flex gap-2 mb-3 flex-wrap">
+                <div className="flex gap-2 mb-3">
                   {['Explain the Nernst equation', 'How does the lac operon work?', 'MMI tips for ethics stations'].map(p => (
                     <button key={p} onClick={() => setChatInput(p)} className="text-[10px] bg-white/5 border border-white/10 px-3 py-1.5 rounded-full hover:bg-white/10 text-gray-400 hover:text-white transition">{p}</button>
                   ))}
@@ -1090,7 +989,7 @@ export default function App() {
           {/* ════════════ FLASHCARDS ════════════ */}
           {tab === 'flashcards' && (
             <div>
-              <h1 className="text-3xl font-black mb-2">AI Flashcards 🃏</h1>
+              <h1 className="text-3xl font-black mb-2">AI Flashcards</h1>
               <p className="text-gray-500 mb-8">Paste your notes and let MetaBrain generate high-yield flashcard decks.</p>
               {activeDeck && flashDecks[activeDeck] ? (
                 <div>
@@ -1101,7 +1000,7 @@ export default function App() {
                   <div className="flex justify-center mb-6" onClick={() => setCardFlipped(f => !f)}>
                     <div className="w-full max-w-lg h-56 cursor-pointer" style={{ perspective: '1000px' }}>
                       <div className="relative w-full h-full transition-transform duration-500" style={{ transformStyle: 'preserve-3d', transform: cardFlipped ? 'rotateY(180deg)' : 'none' }}>
-                        <div className="absolute inset-0 bg-white/5 border border-white/10 rounded-[28px] flex flex-col items-center justify-center p-8 text-center" style={{ backfaceVisibility: 'hidden' }}>
+                        <div className="absolute inset-0 bg-white/5 border border-white/10 rounded-[28px] flex flex-col items-center justify-center p-8 text-center backface-hidden">
                           <p className="text-xs text-gray-500 mb-4 uppercase tracking-widest">Front</p>
                           <p className="text-xl font-bold">{flashDecks[activeDeck][cardIdx]?.front}</p>
                         </div>
@@ -1125,7 +1024,9 @@ export default function App() {
                       {Object.keys(flashDecks).map(name => (
                         <button key={name} onClick={() => { setActiveDeck(name); setCardIdx(0); setCardFlipped(false); }}
                           className="p-5 bg-white/5 border border-white/10 rounded-2xl text-left hover:border-blue-500/40 transition">
-                          <p className="text-2xl mb-2">🃏</p>
+                          <div className="w-9 h-9 rounded-xl bg-blue-500/15 border border-blue-500/25 flex items-center justify-center mb-3">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2" strokeLinecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M12 9v6M9 12h6"/></svg>
+                          </div>
                           <p className="font-bold text-sm">{name}</p>
                           <p className="text-xs text-gray-500">{flashDecks[name].length} cards</p>
                         </button>
@@ -1150,7 +1051,7 @@ export default function App() {
           {/* ════════════ E-LIBRARY ════════════ */}
           {tab === 'elibrary' && (
             <div>
-              <h1 className="text-3xl font-black mb-2">E-Library 📚</h1>
+              <h1 className="text-3xl font-black mb-2">E-Library</h1>
               <p className="text-gray-500 mb-8">Curated, high-quality MCAT resources — all in one place.</p>
               {['Bio/Biochem', 'Chem/Phys', 'Psych/Soc', 'All'].map(cat => {
                 const items = ELIB.filter(r => r.cat === cat);
@@ -1180,7 +1081,7 @@ export default function App() {
           {/* ════════════ PORTFOLIO BUILDER ════════════ */}
           {tab === 'portfolio' && (
             <div>
-              <h1 className="text-3xl font-black mb-2">Portfolio Builder 🏆</h1>
+              <h1 className="text-3xl font-black mb-2">Portfolio Builder</h1>
               <p className="text-gray-500 mb-8">Track your activities and discover opportunities to strengthen your application.</p>
               <div className="grid grid-cols-2 gap-6">
                 <div>
@@ -1231,7 +1132,7 @@ export default function App() {
           {/* ════════════ INTERVIEW SIMULATOR ════════════ */}
           {tab === 'interview' && (
             <div>
-              <h1 className="text-3xl font-black mb-2">MMI Interview Simulator 🎤</h1>
+              <h1 className="text-3xl font-black mb-2">MMI Interview Simulator</h1>
               <p className="text-gray-500 mb-8">Practice medical school Multiple Mini Interview (MMI) questions with AI feedback.</p>
               {!interviewQ ? (
                 <div className="grid grid-cols-2 gap-4">
@@ -1255,7 +1156,7 @@ export default function App() {
                     rows={7} className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 text-sm text-gray-200 outline-none focus:border-violet-500/50 placeholder:text-gray-700 resize-none mb-4" />
                   <button onClick={getInterviewFeedback} disabled={interviewLoading || !interviewAnswer.trim()}
                     className="px-6 py-3 bg-violet-600 rounded-xl font-bold text-sm hover:bg-violet-500 disabled:opacity-40 transition mb-6">
-                    {interviewLoading ? 'Analyzing...' : '🤖 Get AI Feedback'}
+                    {interviewLoading ? 'Analyzing...' : 'Get AI Feedback'}
                   </button>
                   {interviewFeedback && (
                     <div className="bg-violet-500/10 border border-violet-500/30 rounded-2xl p-6">
@@ -1271,7 +1172,7 @@ export default function App() {
           {/* ════════════ ADMISSIONS CALCULATOR ════════════ */}
           {tab === 'admissions' && (
             <div>
-              <h1 className="text-3xl font-black mb-2">Admissions Calculator 🎓</h1>
+              <h1 className="text-3xl font-black mb-2">Admissions Calculator</h1>
               <p className="text-gray-500 mb-8">Compare your stats against top medical schools to identify targets, reaches, and safeties.</p>
               <div className="grid grid-cols-3 gap-4 mb-8">
                 <div className="col-span-1 bg-white/5 border border-white/10 rounded-2xl p-6">
@@ -1313,7 +1214,7 @@ export default function App() {
           {/* ════════════ ANALYTICS ════════════ */}
           {tab === 'analytics' && (
             <div>
-              <h1 className="text-3xl font-black mb-8">Analytics 📊</h1>
+              <h1 className="text-3xl font-black mb-8">Analytics</h1>
               <div className="grid grid-cols-3 gap-4 mb-8">
                 {[
                   { label: 'Total XP Earned', val: user.xp.toLocaleString(), sub: `Level ${xpLevel}`, color: '#f59e0b' },
@@ -1358,18 +1259,14 @@ export default function App() {
                     {currentPath.units.map(unit => {
                       const state = pathway[unit.id] || { unlocked: false, lessonsComplete: [], masteryScore: null };
                       const lessonPct = Math.round(((state.lessonsComplete?.length || 0) / unit.lessons.length) * 100);
-                      const masteryPct = state.masteryScore !== null ? Math.round((state.masteryScore / unit.masteryTotal) * 100) : 0;
                       return (
                         <div key={unit.id}>
                           <div className="flex justify-between text-xs text-gray-400 mb-1">
                             <span>{unit.title}</span>
-                            <span>{state.masteryScore !== null ? `Mastery: ${state.masteryScore}/${unit.masteryTotal}` : `${lessonPct}% lessons done`}</span>
+                            <span>{state.masteryScore !== null ? `Mastery: ${state.masteryScore}/4` : `${lessonPct}% lessons done`}</span>
                           </div>
                           <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                            <div className="h-2 rounded-full" style={{
-                              width: `${state.masteryScore !== null ? masteryPct : lessonPct}%`,
-                              background: state.unlocked ? currentPath.accent : '#374151'
-                            }} />
+                            <div className="h-2 rounded-full" style={{ width: `${state.masteryScore !== null ? Math.round((state.masteryScore / 4) * 100) : lessonPct}%`, background: state.unlocked ? currentPath.accent : '#374151' }} />
                           </div>
                         </div>
                       );
