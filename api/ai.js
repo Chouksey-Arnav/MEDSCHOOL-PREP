@@ -1,15 +1,19 @@
-// api/ai.js — Vercel Node.js Serverless Function
-// Routes AI requests from the React app to the Anthropic API.
-// Required env var: ANTHROPIC_API_KEY (set in Vercel dashboard)
+// api/ai.js — Vercel Serverless Function
+// Proxies requests to the Anthropic API (MetaBrain AI Coach).
+// Required env var in Vercel dashboard: ANTHROPIC_API_KEY
+//
+// ─── FIXED: Converted from CommonJS (module.exports) to ES Module (export default).
+// The root package.json has "type":"module", so Node.js treats all .js files as
+// ES Modules. Using module.exports in an ESM project throws a SyntaxError at
+// runtime and the function fails immediately on Vercel.
 
-module.exports = async (req, res) => {
-  // CORS
+export default async function handler(req, res) {
+  // ── CORS ──
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
   if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  if (req.method !== 'POST')   return res.status(405).json({ error: 'Method not allowed' });
 
   const { system, message, messages } = req.body || {};
 
@@ -20,10 +24,9 @@ module.exports = async (req, res) => {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     console.error('Missing ANTHROPIC_API_KEY environment variable');
-    return res.status(500).json({ error: 'AI service not configured' });
+    return res.status(500).json({ error: 'AI service not configured. Add ANTHROPIC_API_KEY in Vercel dashboard.' });
   }
 
-  // Build the messages array — supports both single-message and multi-turn
   const builtMessages = messages
     ? messages
     : [{ role: 'user', content: message }];
@@ -54,10 +57,10 @@ module.exports = async (req, res) => {
 
     const data = await response.json();
     const content = data.content?.[0]?.text || 'No response generated.';
-
     return res.status(200).json({ content });
+
   } catch (err) {
     console.error('AI proxy error:', err.message);
     return res.status(500).json({ error: 'Internal server error', details: err.message });
   }
-};
+}
