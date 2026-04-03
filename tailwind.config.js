@@ -1,4 +1,8 @@
 /** @type {import('tailwindcss').Config} */
+// BUG FIX: File was named 'tailwing.config.js' (typo — missing the 'd').
+// Tailwind's PostCSS plugin looks specifically for 'tailwind.config.js'.
+// With the wrong name, zero utility classes were generated — every className
+// in the app rendered unstyled on both local and Vercel builds.
 export default {
   content: [
     './index.html',
@@ -8,7 +12,6 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Brand colours matching CSS variables in App.jsx / landing
         brand: {
           blue:    '#3b82f6',
           indigo:  '#6366f1',
