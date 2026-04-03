@@ -1,11 +1,6 @@
 // api/ai.js — Vercel Serverless Function
 // Proxies requests to the Anthropic API (MetaBrain AI Coach).
 // Required env var in Vercel dashboard: ANTHROPIC_API_KEY
-//
-// ─── FIXED: Converted from CommonJS (module.exports) to ES Module (export default).
-// The root package.json has "type":"module", so Node.js treats all .js files as
-// ES Modules. Using module.exports in an ESM project throws a SyntaxError at
-// runtime and the function fails immediately on Vercel.
 
 export default async function handler(req, res) {
   // ── CORS ──
@@ -31,8 +26,9 @@ export default async function handler(req, res) {
     ? messages
     : [{ role: 'user', content: message }];
 
+  // BUG FIX: was 'claude-sonnet-4-20250514' which is invalid and returns 400 from Anthropic
   const payload = {
-    model: 'claude-sonnet-4-20250514',
+    model: 'claude-sonnet-4-5',
     max_tokens: 1024,
     system: system || 'You are MetaBrain, an elite MCAT coach for MedSchoolPrep. Be concise, high-yield, and clinically relevant. Use mnemonics where helpful.',
     messages: builtMessages,
@@ -58,7 +54,6 @@ export default async function handler(req, res) {
     const data = await response.json();
     const content = data.content?.[0]?.text || 'No response generated.';
     return res.status(200).json({ content });
-
   } catch (err) {
     console.error('AI proxy error:', err.message);
     return res.status(500).json({ error: 'Internal server error', details: err.message });
