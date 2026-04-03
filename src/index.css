@@ -1,8 +1,58 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ─── MedSchoolPrep — Dashboard Global CSS ─────────────────── */
 
-/* Custom background to ensure the dark mode is perfect */
-body {
-  @apply bg-[#030014] text-white;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* ── Reset & Base ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
+
+html {
+  background: #030014;
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #030014;
+  color: #f9fafb;
+  overflow-x: hidden;
+  letter-spacing: -0.015em;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.22); }
+
+/* ── KaTeX override — ensure math renders white in dark mode ── */
+.katex { color: inherit; }
+.katex-display { overflow-x: auto; overflow-y: hidden; }
+
+/* ── Utility — backface hidden for flashcard flip ── */
+.backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+
+/* ── Transition defaults for interactive elements ── */
+button, a, input, select, textarea {
+  font-family: inherit;
+}
+
+/* ── Focus-visible ring ── */
+:focus-visible {
+  outline: 2px solid rgba(59,130,246,0.7);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Remove default list styles used in nav ── */
+ul, ol { list-style: none; }
+
+/* ── Prevent text selection on interactive UI elements ── */
+.no-select { user-select: none; -webkit-user-select: none; }
