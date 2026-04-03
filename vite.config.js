@@ -1,17 +1,9 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// ─── FIXED: Removed __dirname and resolve() from 'path'.
-// __dirname does NOT exist in ES Modules ("type":"module" is set in package.json).
-// Using it caused: ReferenceError: __dirname is not defined → build failed on Vercel.
-// Vite already finds index.html automatically from the project root, so no
-// manual rollupOptions.input is needed.
-
 export default defineConfig({
   plugins: [react()],
-
   base: '/',
-
   server: {
     port: 5173,
     proxy: {
@@ -22,7 +14,6 @@ export default defineConfig({
       },
     },
   },
-
   build: {
     outDir: 'dist',
     sourcemap: false,
@@ -38,7 +29,6 @@ export default defineConfig({
       },
     },
   },
-
   optimizeDeps: {
     include: ['react', 'react-dom', 'katex'],
   },
