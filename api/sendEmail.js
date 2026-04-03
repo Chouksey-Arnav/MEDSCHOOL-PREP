@@ -1,13 +1,16 @@
 // api/sendEmail.js — Vercel Serverless Function
-// Sends OTP codes via Gmail + NodeMailer.
+// Sends OTP reset codes via Gmail + NodeMailer.
+// Required env vars in Vercel dashboard: GMAIL_USER, GMAIL_APP_PASSWORD
 //
-// Required Vercel Environment Variables:
-//   GMAIL_USER         → e.g. medschoolprep@gmail.com
-//   GMAIL_APP_PASSWORD → 16-char Google App Password (no spaces)
+// ─── FIXED: Converted from CommonJS (require + module.exports) to ES Module
+// (import + export default). The root package.json has "type":"module", which
+// means Node.js treats ALL .js files as ESM. Using require() in an ESM file
+// throws "ReferenceError: require is not defined" immediately, breaking the
+// function entirely on Vercel.
 
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   // ── CORS ──
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -31,7 +34,7 @@ module.exports = async (req, res) => {
 
   if (!gmailUser || !gmailPass) {
     console.error('Missing GMAIL_USER or GMAIL_APP_PASSWORD');
-    return res.status(500).json({ error: 'Email service not configured on server' });
+    return res.status(500).json({ error: 'Email service not configured. Add GMAIL_USER and GMAIL_APP_PASSWORD in Vercel dashboard.' });
   }
 
   const transporter = nodemailer.createTransport({
@@ -45,44 +48,31 @@ module.exports = async (req, res) => {
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>MedSchoolPrep Reset Code</title>
 </head>
 <body style="margin:0;padding:0;background:#030014;font-family:-apple-system,'Inter',sans-serif;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#030014;padding:40px 16px;">
     <tr><td align="center">
       <table width="100%" cellpadding="0" cellspacing="0" style="max-width:480px;">
-
-        <!-- Logo -->
         <tr><td style="padding-bottom:28px;">
           <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#3b82f6,#6366f1);text-align:center;line-height:48px;font-weight:900;font-size:22px;color:#fff;">M</div>
         </td></tr>
-
-        <!-- Card -->
         <tr><td style="background:#090d1a;border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:36px 32px;">
-
           <h2 style="color:#f9fafb;font-size:22px;font-weight:800;margin:0 0 8px;letter-spacing:-0.03em;">Reset your password</h2>
           <p style="color:rgba(255,255,255,0.5);font-size:14px;margin:0 0 28px;line-height:1.6;">
             Enter the code below in MedSchoolPrep to complete your password reset.<br/>
             <strong style="color:rgba(255,255,255,0.4);">This code expires in 15 minutes.</strong>
           </p>
-
-          <!-- OTP Box -->
           <div style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.25);border-radius:14px;padding:24px;text-align:center;margin-bottom:28px;">
             <div style="font-size:42px;font-weight:900;letter-spacing:10px;color:#60a5fa;font-family:monospace;">${code}</div>
           </div>
-
           <p style="color:rgba(255,255,255,0.35);font-size:12px;margin:0;line-height:1.6;">
             If you did not request a password reset, you can safely ignore this email.<br/>
             MedSchoolPrep staff will <strong>never</strong> ask you for this code.
           </p>
-
         </td></tr>
-
-        <!-- Footer -->
         <tr><td style="padding-top:24px;text-align:center;">
           <p style="color:rgba(255,255,255,0.18);font-size:12px;margin:0;">© 2025 MedSchoolPrep. All rights reserved.</p>
         </td></tr>
-
       </table>
     </td></tr>
   </table>
@@ -103,4 +93,4 @@ module.exports = async (req, res) => {
     console.error('Nodemailer error:', err.message);
     return res.status(500).json({ error: 'Failed to send email', detail: err.message });
   }
-};
+}
