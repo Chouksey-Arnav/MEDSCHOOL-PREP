@@ -848,7 +848,7 @@ MasteryProgress.displayName = 'MasteryProgress';
 const BadgeCard = memo(({ badge, earned = false, small = false }) => {
   const tier = BADGE_TIERS[badge.tier];
   return (
-    <div className={`relative flex ${small ? 'flex-row items-center gap-2 p-2' : 'flex-col items-center gap-2 p-4'} rounded-2xl border transition-all ${earned ? 'border-white/15' : 'border-white/5 opacity-40 grayscale'}`}
+    <div className={`relative flex ${small ? 'flex-row items-center gap-2 p-2' : 'flex-col items-center gap-2 p-4'} rounded-2xl border transition-all ${earned ? 'border-white/20' : 'border-white/5 opacity-40 grayscale'}`}
       style={earned ? { background: `${tier.glow}`, boxShadow: tier.shadow } : { background: 'rgba(255,255,255,0.03)' }}>
       <div className={`${small ? 'text-2xl' : 'text-3xl'} leading-none`}>{badge.icon}</div>
       <div className={small ? 'min-w-0' : 'text-center'}>
@@ -908,7 +908,7 @@ const SessionSummaryCard = memo(({ changes, xpEarned, newBadges, onContinue, ses
                 const to   = MASTERY[c.to];
                 const direction = c.to > c.from ? 'up' : c.to < c.from ? 'down' : 'same';
                 return (
-                  <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/8">
+                  <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10">
                     <div className="flex items-center gap-1.5 flex-1 min-w-0">
                       <MasteryDot level={c.from} size={18} />
                       <span className="text-[10px] text-gray-500 flex-shrink-0">→</span>
@@ -979,6 +979,7 @@ const QuizEngine = memo(({ questions, onFinish, title, onBack, accentColor = '#3
   const [showHint,  setShowHint] = useState(false);
   const LETTERS = ['A','B','C','D'];
   const q = questions[qi];
+  if (!q) return null;
 
   const handleConfirm = useCallback(() => {
     if (sel === null) return;
@@ -987,7 +988,7 @@ const QuizEngine = memo(({ questions, onFinish, title, onBack, accentColor = '#3
   }, [sel, q]);
 
   const handleNext = useCallback(() => {
-    const newScore = score + (sel === q.ans ? 1 : 0);
+    const newScore = score; // score already updated by handleConfirm
     if (qi + 1 >= questions.length) { onFinish(newScore, questions.length); }
     else { setQi(i => i + 1); setSel(null); setConf(false); setShowHint(false); }
   }, [qi, score, sel, q, questions.length, onFinish]);
@@ -1016,7 +1017,7 @@ const QuizEngine = memo(({ questions, onFinish, title, onBack, accentColor = '#3
         {!confirmed && q.hint && (
           <div className="mb-4">
             {showHint ? (
-              <div className="p-3 bg-amber-500/8 border border-amber-500/20 rounded-xl flex items-start gap-2">
+              <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-start gap-2">
                 <span className="text-sm flex-shrink-0">💡</span>
                 <p className="text-xs text-amber-200/80">{q.hint}</p>
               </div>
@@ -1104,6 +1105,7 @@ const LessonPractice = memo(({
   })()).current;
 
   const q = questions[qi];
+  if (!q) return null;
 
   const handleConfirm = useCallback(() => {
     if (sel === null) return;
@@ -1112,7 +1114,7 @@ const LessonPractice = memo(({
   }, [sel, q]);
 
   const handleNext = useCallback(() => {
-    const newCorrect = correct + (sel === q.ans ? 1 : 0);
+    const newCorrect = correct; // correct already updated by handleConfirm
     if (qi + 1 >= questions.length) {
       setSessionCorrect(newCorrect);
       setShowResult(true);
@@ -1121,7 +1123,7 @@ const LessonPractice = memo(({
       setSel(null);
       setConf(false);
       setShowHint(false);
-      setHintUsed(false);
+      // Note: anyHintUsed (renamed from hintUsed) stays true once set
     }
   }, [qi, correct, sel, q, questions.length]);
 
@@ -1265,7 +1267,7 @@ const LessonPractice = memo(({
         {!confirmed && q.hint && (
           <div className="mb-4">
             {showHint ? (
-              <div className="p-3 bg-amber-500/8 border border-amber-500/20 rounded-xl flex items-start gap-2">
+              <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-start gap-2">
                 <span className="text-sm flex-shrink-0">💡</span>
                 <p className="text-xs text-amber-200/70">{q.hint}</p>
               </div>
@@ -1353,6 +1355,7 @@ const MasteryChallenge = memo(({ skills, pathway, onFinish, onBack }) => {
   const [answers,   setAnswers] = useState({}); // { lessonId: { correct: 0, total: 0 } }
   const LETTERS = ['A','B','C','D'];
   const q = questions[qi];
+  if (!q) return <div className="text-center py-20 text-gray-500">No questions available for this skill. Go back and try again.</div>;
 
   const handleConfirm = useCallback(() => {
     if (sel === null) return;
@@ -1747,33 +1750,26 @@ export default function App() {
     setQuizResults({ score, total, passed, unit });
 
     setPathway(prev => {
-      const up = { ...prev, [unit.id]: { ...(prev[unit.id]||{}), masteryScore: score } };
+      // Update masteryScore and unlock next unit
+      let up = { ...prev, [unit.id]: { ...(prev[unit.id]||{}), masteryScore: score } };
       if (passed && currentPath) {
         const idx = currentPath.units.findIndex(u => u.id === unit.id);
         if (idx + 1 < currentPath.units.length) {
           const nextUnitId = currentPath.units[idx+1].id;
           up[nextUnitId] = { ...(up[nextUnitId]||{}), unlocked: true, lessons: up[nextUnitId]?.lessons || {} };
         }
-      }
-      return up;
-    });
-
-    // Unit test is a test context → promote Proficient lessons to Mastered if they scored 100%
-    if (passed && currentPath) {
-      const affectedLessons = unit.lessons;
-      setPathway(prev => {
-        let np = { ...prev };
-        affectedLessons.forEach(l => {
-          const ls = getLessonState(np, unit.id, l.id);
-          if ((ls.masteryLevel || 0) === 3) { // Proficient
-            np = setLessonState(np, unit.id, l.id, s => ({
+        // Unit test: promote Proficient → Mastered (100% on test required per KA rules)
+        unit.lessons.forEach(l => {
+          const ls = getLessonState(up, unit.id, l.id);
+          if ((ls.masteryLevel || 0) === 3) {
+            up = setLessonState(up, unit.id, l.id, s => ({
               ...s, masteryLevel: 4, lastPracticed: Date.now()
             }));
           }
         });
-        return np;
-      });
-    }
+      }
+      return up;
+    });
 
     const xpAdd = passed ? unit.xp : Math.floor(unit.xp * 0.3);
     const newUser = { ...user, xp: user.xp + xpAdd };
@@ -2039,7 +2035,7 @@ export default function App() {
 
         {/* Stale skills warning */}
         {staleSkills.length > 0 && (
-          <div className="mx-3 mt-2 px-3 py-2 rounded-xl border border-amber-500/30 bg-amber-500/8">
+          <div className="mx-3 mt-2 px-3 py-2 rounded-xl border border-amber-500/30 bg-amber-500/10">
             <p className="text-[10px] font-black text-amber-400 uppercase tracking-widest mb-1">🕐 Skills Getting Stale</p>
             {staleSkills.slice(0, 2).map(s => (
               <p key={s.lesson.id} className="text-[10px] text-gray-500 truncate">{s.lesson.title} <span className="text-amber-600">{s.daysSince}d ago</span></p>
@@ -2187,7 +2183,7 @@ export default function App() {
                     {staleSkills.map(({ unit, lesson, level, daysSince }) => (
                       <button key={lesson.id}
                         onClick={() => { setActiveLessonView({ unit, lesson, step:'practice' }); setTab('pathway'); }}
-                        className="p-4 bg-amber-500/8 border border-amber-500/20 rounded-xl text-left hover:border-amber-500/40 transition">
+                        className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl text-left hover:border-amber-500/40 transition">
                         <div className="flex items-center gap-2 mb-1.5">
                           <MasteryDot level={level} size={16} />
                           <span className="text-amber-500 text-[10px] font-bold">{daysSince}d since review</span>
@@ -2209,7 +2205,7 @@ export default function App() {
                       return (
                         <button key={lesson.id}
                           onClick={() => { setActiveLessonView({ unit, lesson, step:'practice' }); setTab('pathway'); }}
-                          className="p-4 bg-white/5 border border-white/10 rounded-xl text-left hover:border-white/20 hover:bg-white/8 transition">
+                          className="p-4 bg-white/5 border border-white/10 rounded-xl text-left hover:border-white/20 hover:bg-white/10 transition">
                           <div className="flex items-center gap-2 mb-1.5">
                             <MasteryDot level={level} size={16} />
                             <span className="text-[10px] font-bold" style={{ color: m.color }}>{m.label}</span>
@@ -2424,7 +2420,7 @@ export default function App() {
 
                   {/* KA demotion warning */}
                   {level >= 3 && (
-                    <div className="mb-4 p-3 bg-amber-500/8 border border-amber-500/20 rounded-xl text-xs text-amber-300">
+                    <div className="mb-4 p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-xs text-amber-300">
                       {level === 4
                         ? '⚠️ Mastered skills can be demoted if you score below 70% in practice.'
                         : '💡 Score 100% on a Unit Test or Mastery Challenge to reach Mastered.'}
