@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, memo, useCallback } from 'react';
 import katex from 'katex';
 
-const LANDING_URL = 'https://medschoolprep-landing.vercel.app';
+const LANDING_URL = 'https://medschool-prep.vercel.app';
 
 /* ═══════════════════════════════════════════════════════════════
    KATEX
